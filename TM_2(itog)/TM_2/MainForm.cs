@@ -34,7 +34,7 @@ namespace TM_2
         string Period = null;
         public MainForm ()
         {
-            ConnectDb connectForm = new ConnectDb();
+            var connectForm = new ConnectDb();
             connectForm.ShowDialog();
             
             InitializeComponent();
@@ -70,7 +70,7 @@ namespace TM_2
 
             string cmdText = "SELECT ID_Point, NamePoint FROM tbl_Points WHERE (TypePoint=1) AND (ID_Parent=0) AND (ID_Point=2)";
 
-            DataTable table;			
+            DataTable table;
             table = RunSqlCmd(cmdText);
 
             foreach (DataRow row in table.Rows)
