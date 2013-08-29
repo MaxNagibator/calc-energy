@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Text;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
@@ -77,10 +79,8 @@ namespace TM_2
 
         private void Categories_1(TreeView Node)
         {
-            string cmdText = "SELECT ID_Point, NamePoint FROM tbl_Points WHERE (TypePoint=3) AND (ID_Parent=2)";
-
-            DataTable table;
-            table = RunSqlCmd(cmdText);
+            const string cmdText = "SELECT ID_Point, NamePoint FROM tbl_Points WHERE (TypePoint=3) AND (ID_Parent=2)";
+            DataTable table = RunSqlCmd(cmdText);
 
             foreach (DataRow row in table.Rows)
             {
@@ -100,7 +100,7 @@ namespace TM_2
         private DataTable RunSqlCmd(string cmdText)
         {
             SqlCommand command = new SqlCommand(cmdText);
-            SqlConnection DBconnection = new SqlConnection(TM_2.Program.connectionString);
+            SqlConnection DBconnection = new SqlConnection(Program.connectionString);
             SqlDataAdapter dbAdapter = new SqlDataAdapter();
             dbAdapter.SelectCommand = command;
             command.Connection = DBconnection;
@@ -159,8 +159,9 @@ namespace TM_2
 
             cmdText = "SET dateformat dmy SELECT MeasureDate, Hours FROM PowerHour WHERE (MeasureDate >= '" + mindate +
                       "' AND MeasureDate <= '" + maxdate + "')";
-            DataTable tablePower = null;
-            tablePower = RunSqlCmd(cmdText);
+            DataTable tablePower = RunSqlCmd(cmdText);
+
+            TestMethodForGritsina(tableEnergi1,tableEnergi2,tablePower,tableTarif);
 
             int metka = 0;
             int j = 0;
@@ -237,6 +238,29 @@ namespace TM_2
             }
             /*---------------------------------------------------------------------------------------------------------*/
            
+        }
+
+        private void TestMethodForGritsina(DataTable tableEnergi1, DataTable tableEnergi2, DataTable tablePower, DataTable tableTarif)
+        {
+            WriteAndStartFile("tableEnergi1.txt", tableEnergi1);
+            WriteAndStartFile("tableEnergi2.txt", tableEnergi2);
+            WriteAndStartFile("tableTarif.txt", tableTarif);
+            WriteAndStartFile("table.txt", tablePower);
+        }
+
+        private void WriteAndStartFile(string nameTxt, DataTable table)
+        {
+            var test4 = "";
+            foreach (DataRow row in table.Rows)
+            {
+                test4 += row[0] + " / ";
+                test4 += row[1] + Environment.NewLine;
+            }
+
+            StreamWriter writer4 = new StreamWriter(nameTxt, false, Encoding.GetEncoding("windows-1251"));
+            writer4.WriteLine(test4);
+            writer4.Dispose();
+            Process.Start(nameTxt);
         }
 
         private void Button_Enrgy_HoursClick(object sender, EventArgs e)
