@@ -8,7 +8,7 @@
  */
 namespace TM_2
 {
-	partial class ConnectDB
+	partial class ConnectDbForm
 	{
 		/// <summary>
 		/// Designer variable used to keep track of non-visual components.
