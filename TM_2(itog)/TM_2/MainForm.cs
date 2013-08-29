@@ -29,9 +29,7 @@ namespace TM_2
             resultTable.Columns.Add("Energi", typeof (double));
             resultTable.Columns.Add("Tarif", typeof (double));
             resultTable.Columns.Add("Summa", typeof (double));
-            //
-            // TODO: Add constructor code after the InitializeComponent() call.
-            //
+
             treeView_Init();
             Inizialize_ComboBox();
         }
@@ -141,9 +139,6 @@ namespace TM_2
             resultEnergi = 0;
             resultEnergiCoast = 0;
             resultPowerCoast = 0;
-            string mmm =
-                System.DateTime.DaysInMonth(Convert.ToInt16(comboBox_Year.SelectedItem),
-                                            (comboBox_Month.SelectedIndex + 1)).ToString();
 
             string mindate = "01." + Convert.ToString(comboBox_Month.SelectedIndex + 1) + "." +
                              comboBox_Year.SelectedItem;
@@ -152,18 +147,15 @@ namespace TM_2
 
             string cmdText = "SET dateformat dmy SELECT MeasureDate, Value FROM Mains WHERE (MeasureDate >= '" + mindate +
                              "' AND MeasureDate <= '" + maxdate + "') AND (ID_Channel = 34)";
-            DataTable tableEnergi1 = null;
-            tableEnergi1 = RunSqlCmd(cmdText);
+            DataTable tableEnergi1 = RunSqlCmd(cmdText);
 
             cmdText = "SET dateformat dmy SELECT MeasureDate, Value FROM Mains WHERE (MeasureDate >= '" + mindate +
                       "' AND MeasureDate <= '" + maxdate + "') AND (ID_Channel = 70)";
-            DataTable tableEnergi2 = null;
-            tableEnergi2 = RunSqlCmd(cmdText);
+            DataTable tableEnergi2 = RunSqlCmd(cmdText);
 
             cmdText = "SET dateformat dmy SELECT MeasureDate, Value FROM PriceHour WHERE (MeasureDate >= '" + mindate +
                       "' AND MeasureDate <= '" + maxdate + "')";
-            DataTable tableTarif = null;
-            tableTarif = RunSqlCmd(cmdText);
+            DataTable tableTarif = RunSqlCmd(cmdText);
 
             cmdText = "SET dateformat dmy SELECT MeasureDate, Hours FROM PowerHour WHERE (MeasureDate >= '" + mindate +
                       "' AND MeasureDate <= '" + maxdate + "')";
@@ -407,7 +399,7 @@ namespace TM_2
                 label10.Visible = true;
             }
             /*---------------------------------------------------------------------------------------------------------*/
-            this.Cursor = System.Windows.Forms.Cursors.Default;
+            Cursor = Cursors.Default;
             a: // what is it? :c
             ;
         }
@@ -431,13 +423,15 @@ namespace TM_2
 
         private void Button_Excel_SaveClick(object sender, EventArgs e)
         {
-            SaveFileDialog saveXLSdialog = new SaveFileDialog();
-            saveXLSdialog.InitialDirectory = "C:\\";
-            saveXLSdialog.Filter = "XLS files (*.xls)|*.xls*|All files (*.*)|*.*";
-            saveXLSdialog.FilterIndex = 1;
-            saveXLSdialog.RestoreDirectory = true;
-            saveXLSdialog.DefaultExt = "xls";
-            saveXLSdialog.AddExtension = true;
+            var saveXLSdialog = new SaveFileDialog
+                                    {
+                                        InitialDirectory = "C:\\",
+                                        Filter = "XLS files (*.xls)|*.xls*|All files (*.*)|*.*",
+                                        FilterIndex = 1,
+                                        RestoreDirectory = true,
+                                        DefaultExt = "xls",
+                                        AddExtension = true
+                                    };
 
             if (saveXLSdialog.ShowDialog() == DialogResult.OK)
             {
