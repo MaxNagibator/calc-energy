@@ -16,13 +16,9 @@ namespace TM_2
         public ConnectDbForm()
         {
             InitializeComponent();
+
             LoadData_from_txt();
         }
-
-
-        /*Функция для получения списка баз данных на сервере
-          * подключается к базе;
-          * возвращает список всех баз в переменной bases;*/
 
         private static List<string> GetDatabaseList(string Server, string User, string Passvord)
         {
@@ -107,8 +103,8 @@ namespace TM_2
 
             else
             {
-                TM_2.Program.connectionString = conStringBuilder.ToString();
-                SqlConnection connection = new SqlConnection(TM_2.Program.connectionString);
+                Globals.ConnectionString = conStringBuilder.ToString();
+                var connection = new SqlConnection(Globals.ConnectionString);
 
                 try
                 {
@@ -124,7 +120,7 @@ namespace TM_2
                 {
                     connection.Dispose();
                     SaveData_to_txt();
-                    this.Dispose();
+                    DialogResult = DialogResult.OK;
                 }
             }
         }

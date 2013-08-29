@@ -11,25 +11,25 @@ using System.Windows.Forms;
 
 namespace TM_2
 {
-	/// <summary>
-	/// Class with program entry point.
-	/// </summary>
-	internal sealed class Program
-	{
-		/// <summary>
-		/// Program entry point.
-		/// </summary>
-		[STAThread]
-				
-		private static void Main(string[] args)
-		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());
-		}
-		
-		public static string connectionString;
-		public static double PowerCoast = 204828.3;
-		
-	}
+    /// <summary>
+    /// Class with program entry point.
+    /// </summary>
+    internal sealed class Program
+    {
+        /// <summary>
+        /// Program entry point.
+        /// </summary>
+        [STAThread]
+                
+        private static void Main(string[] args)
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new CalculateForm());
+        }
+        
+        public static string ConnectionString;
+        public static double PowerCoast = 204828.3;
+        
+    }
 }

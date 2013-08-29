@@ -51,7 +51,7 @@ namespace TM_2
         void DataBaseWork(string sql)
         {
             resultTable = new DataTable();
-            SqlConnection connection = new SqlConnection(TM_2.Program.connectionString);
+            SqlConnection connection = new SqlConnection(TM_2.Program.ConnectionString);
             connection.Open();
             SqlCommand command = new SqlCommand(sql, connection);
             dbAdapter = new SqlDataAdapter(command);

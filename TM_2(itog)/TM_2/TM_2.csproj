@@ -68,6 +68,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Globals.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +77,32 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CalculateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CalculateForm.Designer.cs">
+      <DependentUpon>CalculateForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImportCostForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ImportCostForm.Designer.cs">
+      <DependentUpon>ImportCostForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlProvider\Exceptions\ComponentNotInstalledException.cs" />
+    <Compile Include="SqlProvider\Exceptions\IncorrectPathException.cs" />
+    <Compile Include="SqlProvider\Exceptions\LowRightsException.cs" />
+    <Compile Include="SqlProvider\Exceptions\LowSystemRightsException.cs" />
+    <Compile Include="SqlProvider\Exceptions\PropertyNotSettedException.cs" />
+    <Compile Include="SqlProvider\Exceptions\ReportExecutionException.cs" />
+    <Compile Include="SqlProvider\Exceptions\ResultIsNotBooleanException.cs" />
+    <Compile Include="SqlProvider\Exceptions\ResultIsNotInt32Exception.cs" />
+    <Compile Include="SqlProvider\Exceptions\SqlProviderException.cs" />
+    <Compile Include="SqlProvider\Exceptions\WarningException.cs" />
+    <Compile Include="SqlProvider\IQueryResultRow.cs" />
+    <Compile Include="SqlProvider\ISqlProvider.cs" />
+    <Compile Include="SqlProvider\SqlProvider.cs" />
+    <Compile Include="SqlProvider\SqlProviderCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConnectDbForm.resx">
@@ -89,6 +116,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CalculateForm.resx">
+      <DependentUpon>CalculateForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ImportCostForm.resx">
+      <DependentUpon>ImportCostForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
