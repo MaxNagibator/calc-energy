@@ -99,6 +99,7 @@
     <Compile Include="SqlProvider\Exceptions\ResultIsNotInt32Exception.cs" />
     <Compile Include="SqlProvider\Exceptions\SqlProviderException.cs" />
     <Compile Include="SqlProvider\Exceptions\WarningException.cs" />
+    <Compile Include="SqlProvider\IQueryResultColumn.cs" />
     <Compile Include="SqlProvider\IQueryResultRow.cs" />
     <Compile Include="SqlProvider\ISqlProvider.cs" />
     <Compile Include="SqlProvider\SqlProvider.cs" />

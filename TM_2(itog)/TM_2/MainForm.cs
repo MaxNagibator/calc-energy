@@ -21,8 +21,8 @@ namespace TM_2
 
         public MainForm()
         {
-            var connectForm = new ConnectDbForm();
-            connectForm.ShowDialog();
+            //var connectForm = new ConnectDbForm();
+            //connectForm.ShowDialog();
 
             InitializeComponent();
 
@@ -100,7 +100,7 @@ namespace TM_2
         private DataTable RunSqlCmd(string cmdText)
         {
             SqlCommand command = new SqlCommand(cmdText);
-            SqlConnection DBconnection = new SqlConnection(Program.ConnectionString);
+            SqlConnection DBconnection = new SqlConnection(Globals.ConnectionString);
             SqlDataAdapter dbAdapter = new SqlDataAdapter();
             dbAdapter.SelectCommand = command;
             command.Connection = DBconnection;
@@ -127,7 +127,8 @@ namespace TM_2
         private void Button_CalcClick(object sender, EventArgs e)
         {
             Cursor = Cursors.WaitCursor;
-            Calculate(); Cursor = Cursors.Default;
+            Calculate(); 
+            Cursor = Cursors.Default;
         }
 
         private void Calculate()
