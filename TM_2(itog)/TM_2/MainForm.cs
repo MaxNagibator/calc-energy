@@ -123,14 +123,14 @@ namespace TM_2
             {
                 MessageBox.Show("Нет объектов в базе или не правильно выбрана база данных. Перезапустите приложение и выберете другую базу данных.");
                 Application.Exit();
-                DataTable table = new DataTable(null);
+                var table = new DataTable(null);
                 return table;
             }
             
         }
         /*---------------------------------------------------------------------------------*/
 
-        void Button_CalcClick(object sender, EventArgs e)
+        private void Button_CalcClick(object sender, EventArgs e)
         {
             NameObjekt = "ПС Правобережная";
             dataGridView.Rows.Clear();
@@ -161,7 +161,7 @@ namespace TM_2
             tablePower = RunSqlCmd(cmdText);
 
             int metka = 0;
-            int j = 0;			
+            int j = 0;
             for(int i = 1; i < tableEnergi1.Rows.Count-1; i = i+2)
             {
                 resultTable.Rows.Add(null, null, null, null);
@@ -175,7 +175,6 @@ namespace TM_2
                         break;
                     }
                 }
-                //resultEnergi = resultEnergi + Convert.ToDouble(resultTable.Rows[j][1]);
                 
                 if(tableTarif.Rows.Count != 0)
                 {
@@ -193,7 +192,6 @@ namespace TM_2
                                       resultTable.Rows[i][2], resultTable.Rows[i][3]);
                 resultEnergi =  resultEnergi + Convert.ToDouble(resultTable.Rows[i][1]);
             }
-            //MessageBox.Show(resultEnergi.ToString("#.00"));
 
             /*Заполнение таблицы расчета стоимости мощности и вывод результатов расчета*/
             if(tablePower.Rows.Count != 0)

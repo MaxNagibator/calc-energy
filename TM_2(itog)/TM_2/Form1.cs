@@ -64,8 +64,7 @@ namespace TM_2
         {
             Stream openStream = null;
             OpenFileDialog openXLSDialog = new OpenFileDialog();
-            
-            openXLSDialog.InitialDirectory = "C:\\";
+
             openXLSDialog.Filter = "XLS files (*.xls)|*.xls*|All files (*.*)|*.*";
             openXLSDialog.FilterIndex = 1;
             openXLSDialog.RestoreDirectory = true;
