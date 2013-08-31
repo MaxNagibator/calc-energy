@@ -46,7 +46,7 @@ namespace TM_2
             this.panel1 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.uiCoastColumnTextBox = new System.Windows.Forms.TextBox();
+            this.uiCostColumnTextBox = new System.Windows.Forms.TextBox();
             this.uiCoastRowTextBox = new System.Windows.Forms.TextBox();
             this.uiDateColumnTextBox = new System.Windows.Forms.TextBox();
             this.uiDateRowTextBox = new System.Windows.Forms.TextBox();
@@ -141,7 +141,7 @@ namespace TM_2
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.textBox1);
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.uiCoastColumnTextBox);
+            this.panel1.Controls.Add(this.uiCostColumnTextBox);
             this.panel1.Controls.Add(this.uiCoastRowTextBox);
             this.panel1.Controls.Add(this.uiDateColumnTextBox);
             this.panel1.Controls.Add(this.uiDateRowTextBox);
@@ -175,13 +175,13 @@ namespace TM_2
             this.label8.TabIndex = 22;
             this.label8.Text = "Ведите цену на мощность";
             // 
-            // uiCoastColumnTextBox
+            // uiCostColumnTextBox
             // 
-            this.uiCoastColumnTextBox.Location = new System.Drawing.Point(395, 37);
-            this.uiCoastColumnTextBox.Name = "uiCoastColumnTextBox";
-            this.uiCoastColumnTextBox.ReadOnly = true;
-            this.uiCoastColumnTextBox.Size = new System.Drawing.Size(100, 20);
-            this.uiCoastColumnTextBox.TabIndex = 21;
+            this.uiCostColumnTextBox.Location = new System.Drawing.Point(395, 37);
+            this.uiCostColumnTextBox.Name = "uiCostColumnTextBox";
+            this.uiCostColumnTextBox.ReadOnly = true;
+            this.uiCostColumnTextBox.Size = new System.Drawing.Size(100, 20);
+            this.uiCostColumnTextBox.TabIndex = 21;
             // 
             // uiCoastRowTextBox
             // 
@@ -291,7 +291,7 @@ namespace TM_2
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.TextBox uiCoastRowTextBox;
-		private System.Windows.Forms.TextBox uiCoastColumnTextBox;
+		private System.Windows.Forms.TextBox uiCostColumnTextBox;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Label label6;

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -8,6 +7,7 @@ namespace TM_2
 {
     public partial class CalculateForm : Form
     {
+        public CostSum totalCostSum { get; set; }
         public CalculateForm()
         {
             InitializeComponent();
@@ -73,13 +73,19 @@ namespace TM_2
             }
         }
 
-        private void uiImportCostButton_Click(object sender, System.EventArgs e)
+        private void uiImportCostButton_Click(object sender, EventArgs e)
         {
             var importCostForm = new ImportCostForm();
             importCostForm.ShowDialog();
         }
 
-        private void uiOldMainFormButton_Click(object sender, System.EventArgs e)
+        private void uiPowerHourButton_Click(object sender, EventArgs e)
+        {
+            var importHourPowerForm = new ImportHourPowerForm();
+            importHourPowerForm.ShowDialog();
+        }
+
+        private void uiOldMainFormButton_Click(object sender, EventArgs e)
         {
             var a = new MainForm();
             a.ShowDialog();
@@ -92,45 +98,71 @@ namespace TM_2
 
         private void Calculate()
         {
-            var selectedObjectRegistrationNode = uiObjectRegistrationTreeView.SelectedNode.Text;
-
             Cursor = Cursors.WaitCursor;
-            dataGridView.Rows.Clear();
+            uiMainDataGridView.Rows.Clear();
 
             string mindate = "01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 1) + "." +
                              uiYearsComboBox.SelectedItem;
             string maxdate = "01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 2) + "." +
                              uiYearsComboBox.SelectedItem;
 
+            CalculateAll(mindate, maxdate);
+            ShowResult();
+            Cursor = Cursors.Default;
+        }
+
+        private void ShowResult()
+        {
+            uiEnergyAverageCostValueLabel.Text = totalCostSum.EnergyAverageCostSum.ToString();
+            uiEnergyTotalValueLabel.Text = totalCostSum.EnergyTotal.ToString();
+            uiEnergyEesCostSumValueLabel.Text = totalCostSum.EnergyEesCostSum.ToString();
+            uiEnergyAtsCostSumValueLabel.Text = totalCostSum.EnergyAtsCostSum.ToString();
+            uiEnergyCfrCostSumValueLabel.Text = totalCostSum.EnergyCfrCostSum.ToString();
+            uiEnergyOtherCostSumValueLabel.Text = totalCostSum.EnergyOtherCostSum.ToString();
+            uiEnergyTransferCostSumValueLabel.Text = totalCostSum.EnergyTransferCostSum.ToString();
+            uiEnergyTotalCostValueLabel.Text = totalCostSum.EnergyTotalCost.ToString();
+            uiEnergySalesSurchargeCostSumValueLabel.Text = totalCostSum.EnergySalesSurchargeCostSum.ToString();
+
+            uiPowerTotalValueLabel.Text = totalCostSum.PowerTotal.ToString();
+            uiPowerAverageCostSumValueLabel.Text = totalCostSum.PowerAverageCostSum.ToString();
+            uiPowerSalesSurchargeCostSumValueLabel.Text = totalCostSum.PowerSalesSurchargeCostSum.ToString();
+            uiTotalCostValueLabel.Text = totalCostSum.TotalCost.ToString();
+        }
+
+        private void CalculateAll(string mindate, string maxdate)
+        {
+           var energyTotalCostSum = CalculateEnergyTotalCostSum(mindate, maxdate);
+           var powerTotalCostSum = CalculatePowerTotalCostSum(mindate, maxdate);
+            var totalCost = energyTotalCostSum + powerTotalCostSum;
+            totalCostSum.TotalCost = totalCost;
+        }
+
+        private double CalculateEnergyTotalCostSum(string mindate, string maxdate)
+        {
+            double energyAverageCostSum = CalculateEnergyAverageCostSum(mindate, maxdate);
+            double energyTransferCostSum = CalculateEnergyTransferCostSum();
+            double energyOtherCostSum = CalculateEnergyOtherCostSum();
+            double energySalesSurchargeCostSum = CalculateEnergySalesSurchargeCostSum();
+            double energyTotalCostSum = energyAverageCostSum + energyTransferCostSum + energyOtherCostSum + energySalesSurchargeCostSum;
+            totalCostSum.EnergyTotalCost = energyTotalCostSum;
+            return energyTotalCostSum;
+        }
+
+        private double CalculateEnergyAverageCostSum(string mindate, string maxdate)
+        {
             var cmdText = @"SET dateformat dmy 
                         SELECT MeasureDate, Value, Cost
                         FROM Mains
                         LEFT JOIN [CalcEnergy].[HourPrice] AS HP ON HP.Date = Mains.MeasureDate
                         WHERE (MeasureDate >= @MinDate AND MeasureDate < @MaxDate)";
 
-            if (selectedObjectRegistrationNode == "Фидер №725")
-            {
-                cmdText += " AND (ID_Channel = 34)";
-            }
-            else
-            {
-                if (selectedObjectRegistrationNode == "Фидер №728")
-                {
-                    cmdText += " AND (ID_Channel = 70)";
-                }
-            }
-            Calculate2(cmdText, mindate, maxdate);
-            Cursor = Cursors.Default;
-        }
+            cmdText += GetObjectChanelId();
 
-        private void Calculate2(string cmdText, string mindate, string maxdate)
-        {
-
-            dataGridView.Rows.Clear();
+            uiMainDataGridView.Rows.Clear();
             using (var sqlProvider = Globals.GetSqlProvider())
             {
-                double energyValueSum = 0;
-                double filkaSum = 0;
+                double energyTotal = 0;
+                double energyAverageCostSum = 0;
                 double cost = 0;
                 sqlProvider.SetParameter("@MinDate", mindate);
                 sqlProvider.SetParameter("@MaxDate", maxdate);
@@ -143,12 +175,147 @@ namespace TM_2
                         cost = row.Field<double>("Cost");
                     }
                     var filka = cost*energyValue/1000;
-                    dataGridView.Rows.Add(row.Field<DateTime>("MeasureDate"), energyValue, cost, filka);
-                    energyValueSum += energyValue;
-                    filkaSum += filka;
+                    uiMainDataGridView.Rows.Add(row.Field<DateTime>("MeasureDate"), energyValue, cost, filka);
+                    energyTotal += energyValue;
+                    energyAverageCostSum += filka;
                 }
-                dataGridView.Rows.Add("all", energyValueSum, filkaSum);
+                uiMainDataGridView.Rows.Add("all", energyTotal, energyAverageCostSum);
+                totalCostSum.EnergyTotal = energyTotal;
+                totalCostSum.EnergyAverageCostSum = energyAverageCostSum;
+                return energyAverageCostSum;
             }
+        }
+
+        private double CalculateEnergyTransferCostSum()
+        {
+            double energyTotal = totalCostSum.EnergyTotal;
+            double transferCost = Convert.ToDouble(uiEnergyTransferCostTextBox.Text);
+            double energyTransferCostSum = energyTotal*transferCost;
+            totalCostSum.EnergyTransferCostSum = energyTransferCostSum;
+            return energyTransferCostSum;
+        }
+
+        private double CalculateEnergyOtherCostSum()
+        {
+            double atsTotalEnergy = CalculateEnergyAtsCostSum();
+            double cfrTotalEnergy = CalculateEnergyCfrCostSum();
+            double eesTotalEnergy = CalculateEnergyEesCostSum();
+            double energyOtherCostSum = atsTotalEnergy + cfrTotalEnergy + eesTotalEnergy;
+            totalCostSum.EnergyOtherCostSum = energyOtherCostSum;
+            return energyOtherCostSum;
+        }
+
+        private double CalculateEnergyAtsCostSum()
+        {
+            double energyTotal = totalCostSum.EnergyTotal;
+            double cost = Convert.ToDouble(uiEnergyAtsCostValueTextBox.Text);
+            double energyAtsCostSum = energyTotal * cost;
+            totalCostSum.EnergyAtsCostSum = energyAtsCostSum;
+            return energyAtsCostSum;
+        }
+
+        private double CalculateEnergyCfrCostSum()
+        {
+            double energyTotal = totalCostSum.EnergyTotal;
+            double cost = Convert.ToDouble(uiEnergyCfrCostValueTextBox.Text);
+            double energyCfrCostSum = energyTotal * cost;
+            totalCostSum.EnergyCfrCostSum = energyCfrCostSum;
+            return energyCfrCostSum;
+        }
+
+        private double CalculateEnergyEesCostSum()
+        {
+            double energyTotal = totalCostSum.EnergyTotal;
+            double cost = Convert.ToDouble(uiEnergyEesCostValueTextBox.Text);
+            double energyEesCostSum = energyTotal*cost;
+            totalCostSum.EnergyEesCostSum = energyEesCostSum;
+            return energyEesCostSum;
+        }
+
+        private double CalculateEnergySalesSurchargeCostSum()
+        {
+            double energyTotal = totalCostSum.EnergyTotal;
+            double cost = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text);
+            double energySalesSurchargeCostSum = energyTotal*cost;
+            totalCostSum.EnergySalesSurchargeCostSum = energySalesSurchargeCostSum;
+            return energySalesSurchargeCostSum;
+        }
+
+        private double CalculatePowerTotalCostSum(string mindate, string maxdate)
+        {
+            double averagePowerCostSum = CalculatePowerAverageCostSum(mindate, maxdate);
+            double salesSurchargePowerSum =  CalculatePowerSalesSurchargeCostSum();
+            double powerTotalCost = averagePowerCostSum + salesSurchargePowerSum;
+            totalCostSum.PowerTotalCost = powerTotalCost;
+            uiEnergyTotalCostValueLabel.Text = powerTotalCost.ToString();
+            return powerTotalCost;
+        }
+
+        private double CalculatePowerAverageCostSum(string mindate, string maxdate)
+        {
+            double cost = Convert.ToDouble(uiPowerAverageCostTextBox.Text);
+            double powerTotal = 0;
+            using (var sqlProvider = Globals.GetSqlProvider())
+            {
+                sqlProvider.SetParameter("@MinDate", mindate);
+                sqlProvider.SetParameter("@MaxDate", maxdate);
+                sqlProvider.ExecuteQuery(@"SELECT Date, Hour
+                        FROM [CalcEnergy].[PowerHour]
+                        WHERE (Date >= @MinDate AND Date < @MaxDate)");
+
+                var dateList =
+                    sqlProvider.Rows.Select(row =>
+                                            row.Field<DateTime>("Date").AddHours(row.Field<int>("Hour"))).ToList();
+
+                var cmdText = @"SELECT Value
+                                FROM Mains
+                                WHERE (MeasureDate = @Date OR MeasureDate = @Date2)";
+                cmdText += GetObjectChanelId();
+
+                foreach (var date in dateList)
+                {
+                    sqlProvider.SetParameter("@Date", date);
+                    sqlProvider.SetParameter("@Date2", date.AddMinutes(-30));
+                    sqlProvider.ExecuteQuery(cmdText);
+                    if (sqlProvider.HasRows)
+                    {
+                        double value = sqlProvider.Rows.Sum(row => row.Field<double>("Value"));
+                        powerTotal += value;
+                        uiMainDataGridView.Rows.Add(date, value);
+                    }
+                }
+                var powerAverageCostSum = (powerTotal*cost/dateList.Count);
+                totalCostSum.PowerAverageCostSum = powerAverageCostSum;
+                totalCostSum.PowerTotal = powerTotal;
+                return powerAverageCostSum;
+            }
+        }
+
+        private double CalculatePowerSalesSurchargeCostSum()
+        {
+            double powerTotal = totalCostSum.PowerTotal;
+            double cost = Convert.ToDouble(uiPowerSalesSurchargeCostValueTextBox.Text);
+            double powerSalesSurchargeCostSum = powerTotal * cost;
+            totalCostSum.PowerSalesSurchargeCostSum = powerSalesSurchargeCostSum;
+            return powerSalesSurchargeCostSum;
+        }
+
+        private string GetObjectChanelId()
+        {
+            var selectedObjectRegistrationNode = uiObjectRegistrationTreeView.SelectedNode.Text;
+            if (selectedObjectRegistrationNode == "Фидер №725")
+            {
+                return " AND (ID_Channel = 34)";
+            }
+            if (selectedObjectRegistrationNode == "Фидер №728")
+            {
+                return " AND (ID_Channel = 70)";
+            }
+            if (selectedObjectRegistrationNode == "ПС Правобережная")
+            {
+                return " AND ((ID_Channel = 34) OR (ID_Channel = 70))";
+            }
+            return "";
         }
     }
 }

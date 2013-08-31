@@ -8,8 +8,6 @@ namespace TM_2
 {
     public partial class ImportCostForm : Form
     {
-
-
         public ImportCostForm()
         {
             InitializeComponent();
@@ -34,7 +32,7 @@ namespace TM_2
 
                     uiDateColumnTextBox.ReadOnly = false;
                     uiDateRowTextBox.ReadOnly = false;
-                    uiCoastColumnTextBox.ReadOnly = false;
+                    uiCostColumnTextBox.ReadOnly = false;
                     uiCoastRowTextBox.ReadOnly = false;
                     uiLoadToDataBaseButton.Enabled = true;
                 }
@@ -87,7 +85,7 @@ namespace TM_2
             int rowIndex = Convert.ToInt16(uiDateRowTextBox.Text);
             int dateColumn = Convert.ToInt16(uiDateColumnTextBox.Text);
             int hourColumn = dateColumn + 1;
-            int costColumn = Convert.ToInt16(uiCoastColumnTextBox.Text);
+            int costColumn = Convert.ToInt16(uiCostColumnTextBox.Text);
 
             using (var sqlProvider = Globals.GetSqlProvider())
             {
@@ -141,7 +139,7 @@ namespace TM_2
             var costBeginCell = new Point(5, 41);
             uiDateColumnTextBox.Text = dateBeginCell.X.ToString();
             uiDateRowTextBox.Text = dateBeginCell.Y.ToString();
-            uiCoastColumnTextBox.Text = costBeginCell.X.ToString();
+            uiCostColumnTextBox.Text = costBeginCell.X.ToString();
             uiCoastRowTextBox.Text = costBeginCell.Y.ToString();
         }
     }
