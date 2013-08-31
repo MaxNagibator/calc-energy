@@ -10,6 +10,7 @@ namespace TM_2
         public CostSum totalCostSum { get; set; }
         public CalculateForm()
         {
+            totalCostSum = new CostSum();
             InitializeComponent();
             TestDbConnect();
             InizializeDateComboBoxs();
