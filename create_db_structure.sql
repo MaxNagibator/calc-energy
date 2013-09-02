@@ -25,3 +25,17 @@ GO
 EXEC sp_addextendedproperty 'MS_Description', N'Час максимального совокупного потребления электроэнергии в субъекте Российской Федерации
 ', N'schema', N'CalcEnergy', N'table', N'PowerHour'
 GO
+
+CREATE TABLE [CalcEnergy].[Coefficients] (
+  [Date] datetime NOT NULL
+  ,EnergyOtherCost int DEFAULT 0 NOT NULL
+  ,EnergySalesSurchargeCost int DEFAULT 0 NOT NULL
+  ,EnergyTransferCost int DEFAULT 0 NOT NULL
+  ,PowerSalesSurchargeCost int DEFAULT 0 NOT NULL
+  ,PowerAverageCost int DEFAULT 0 NOT NULL
+)
+GO
+
+EXEC sp_addextendedproperty 'MS_Description', N'различные коеффициенты для рассчёта
+', N'schema', N'CalcEnergy', N'table', N'Coefficients'
+GO
