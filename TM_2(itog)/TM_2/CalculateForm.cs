@@ -9,6 +9,7 @@ namespace TM_2
     {
         public CalculateInfo CalculateInfo { get; set; }
         private DateTime _selectedDate;
+        private bool _isFormLoaded;
 
         public CalculateForm()
         {
@@ -17,6 +18,7 @@ namespace TM_2
             TestDbConnect();
             InizializeDateComboBoxs();
             LoadObjectRegistrationNodes();
+            _isFormLoaded = true;
         }
 
         private void TestDbConnect()
@@ -98,6 +100,7 @@ namespace TM_2
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
             Calculate();
+
         }
 
         private void Calculate()
@@ -182,8 +185,8 @@ namespace TM_2
                     var energyValue = sqlProvider.Rows[i].Field<double>("Value") +
                                       sqlProvider.Rows[i + 1].Field<double>("Value");
                     var cost = sqlProvider.Rows[i + 1].Field<double?>("Cost") != null
-                                   ? sqlProvider.Rows[i + 1].Field<double>("Cost")
-                                   : sqlProvider.Rows[i].Field<double>("Cost");
+                                   ? sqlProvider.Rows[i + 1].Field<double?>("Cost") ?? 0
+                                   : sqlProvider.Rows[i].Field<double?>("Cost") ?? 0;
                     var filka = cost*energyValue/1000;
                     uiMainDataGridView.Rows.Add(sqlProvider.Rows[i + 1].Field<DateTime>("MeasureDate"), energyValue,
                                                 cost, filka);
@@ -309,7 +312,7 @@ namespace TM_2
                 sqlProvider.AddCommand(@"
                     DELETE FROM [CalcEnergy].[Coefficients] WHERE Date = @Date");
                 sqlProvider.SetParameter("@Date", date);
-                sqlProvider.ExecuteNonQuery(@"
+                sqlProvider.AddCommand(@"
                     INSERT INTO [CalcEnergy].[Coefficients] 
                         (Date
                         ,EnergyOtherCost
@@ -405,7 +408,10 @@ namespace TM_2
 
         private void uiDatesComboBox_SelectedValueChanged(object sender, EventArgs e)
         {
-            ChangeDate();
+            if (_isFormLoaded)
+            {
+                ChangeDate();
+            }
         }
 
         private void ChangeDate()

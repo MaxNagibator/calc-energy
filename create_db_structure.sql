@@ -28,11 +28,11 @@ GO
 
 CREATE TABLE [CalcEnergy].[Coefficients] (
   [Date] datetime NOT NULL
-  ,EnergyOtherCost int DEFAULT 0 NOT NULL
-  ,EnergySalesSurchargeCost int DEFAULT 0 NOT NULL
-  ,EnergyTransferCost int DEFAULT 0 NOT NULL
-  ,PowerSalesSurchargeCost int DEFAULT 0 NOT NULL
-  ,PowerAverageCost int DEFAULT 0 NOT NULL
+  ,EnergyOtherCost float DEFAULT 0 NOT NULL
+  ,EnergySalesSurchargeCost float DEFAULT 0 NOT NULL
+  ,EnergyTransferCost float DEFAULT 0 NOT NULL
+  ,PowerSalesSurchargeCost float DEFAULT 0 NOT NULL
+  ,PowerAverageCost float DEFAULT 0 NOT NULL
 )
 GO
 

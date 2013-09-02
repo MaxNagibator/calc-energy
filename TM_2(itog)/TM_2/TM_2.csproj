@@ -90,6 +90,12 @@
     <Compile Include="ImportCostForm.Designer.cs">
       <DependentUpon>ImportCostForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ReportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ReportForm.Designer.cs">
+      <DependentUpon>ReportForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SqlProvider\Exceptions\ComponentNotInstalledException.cs" />
     <Compile Include="SqlProvider\Exceptions\IncorrectPathException.cs" />
     <Compile Include="SqlProvider\Exceptions\LowRightsException.cs" />
@@ -133,6 +139,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImportHourPowerForm.resx">
       <DependentUpon>ImportHourPowerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportForm.resx">
+      <DependentUpon>ReportForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
