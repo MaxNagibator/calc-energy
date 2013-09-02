@@ -7,10 +7,10 @@ namespace TM_2
 {
     public partial class CalculateForm : Form
     {
-        public CostSum totalCostSum { get; set; }
+        public CalculateInfo CalculateInfo { get; set; }
         public CalculateForm()
         {
-            totalCostSum = new CostSum();
+            CalculateInfo = new CalculateInfo();
             InitializeComponent();
             TestDbConnect();
             InizializeDateComboBoxs();
@@ -114,20 +114,21 @@ namespace TM_2
 
         private void ShowResult()
         {
-            uiEnergyAverageCostValueLabel.Text = totalCostSum.EnergyAverageCostSum.ToString();
-            uiEnergyTotalValueLabel.Text = totalCostSum.EnergyTotal.ToString();
-            uiEnergyEesCostSumValueLabel.Text = totalCostSum.EnergyEesCostSum.ToString();
-            uiEnergyAtsCostSumValueLabel.Text = totalCostSum.EnergyAtsCostSum.ToString();
-            uiEnergyCfrCostSumValueLabel.Text = totalCostSum.EnergyCfrCostSum.ToString();
-            uiEnergyOtherCostSumValueLabel.Text = totalCostSum.EnergyOtherCostSum.ToString();
-            uiEnergyTransferCostSumValueLabel.Text = totalCostSum.EnergyTransferCostSum.ToString();
-            uiEnergyTotalCostValueLabel.Text = totalCostSum.EnergyTotalCost.ToString();
-            uiEnergySalesSurchargeCostSumValueLabel.Text = totalCostSum.EnergySalesSurchargeCostSum.ToString();
+            uiEnergyTotalValueLabel.Text = Math.Round(CalculateInfo.EnergyTotal, 2).ToString();
+            uiEnergyAverageCostValueLabel.Text = Math.Round(CalculateInfo.EnergyAverageCostSum, 2).ToString();
+            uiEnergyEesCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyEesCostSum, 2).ToString();
+            uiEnergyAtsCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyAtsCostSum, 2).ToString();
+            uiEnergyCfrCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyCfrCostSum, 2).ToString();
+            uiEnergyOtherCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyOtherCostSum, 2).ToString();
+            uiEnergyTransferCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyTransferCostSum, 2).ToString();
+            uiEnergyTotalCostValueLabel.Text = Math.Round(CalculateInfo.EnergyTotalCost, 2).ToString();
+            uiEnergySalesSurchargeCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergySalesSurchargeCostSum, 2).ToString();
 
-            uiPowerTotalValueLabel.Text = totalCostSum.PowerTotal.ToString();
-            uiPowerAverageCostSumValueLabel.Text = totalCostSum.PowerAverageCostSum.ToString();
-            uiPowerSalesSurchargeCostSumValueLabel.Text = totalCostSum.PowerSalesSurchargeCostSum.ToString();
-            uiTotalCostValueLabel.Text = totalCostSum.TotalCost.ToString();
+            uiPowerTotalValueLabel.Text = Math.Round(CalculateInfo.PowerTotal, 2).ToString();
+            uiPowerTotalCostValueLabel.Text = Math.Round(CalculateInfo.PowerTotalCost, 2).ToString();
+            uiPowerAverageCostSumValueLabel.Text = Math.Round(CalculateInfo.PowerAverageCostSum, 2).ToString();
+            uiPowerSalesSurchargeCostSumValueLabel.Text = Math.Round(CalculateInfo.PowerSalesSurchargeCostSum, 2).ToString();
+            uiTotalCostValueLabel.Text = Math.Round(CalculateInfo.TotalCost, 2).ToString();
         }
 
         private void CalculateAll(string mindate, string maxdate)
@@ -135,7 +136,7 @@ namespace TM_2
            var energyTotalCostSum = CalculateEnergyTotalCostSum(mindate, maxdate);
            var powerTotalCostSum = CalculatePowerTotalCostSum(mindate, maxdate);
             var totalCost = energyTotalCostSum + powerTotalCostSum;
-            totalCostSum.TotalCost = totalCost;
+            CalculateInfo.TotalCost = totalCost;
         }
 
         private double CalculateEnergyTotalCostSum(string mindate, string maxdate)
@@ -145,7 +146,7 @@ namespace TM_2
             double energyOtherCostSum = CalculateEnergyOtherCostSum();
             double energySalesSurchargeCostSum = CalculateEnergySalesSurchargeCostSum();
             double energyTotalCostSum = energyAverageCostSum + energyTransferCostSum + energyOtherCostSum + energySalesSurchargeCostSum;
-            totalCostSum.EnergyTotalCost = energyTotalCostSum;
+            CalculateInfo.EnergyTotalCost = energyTotalCostSum;
             return energyTotalCostSum;
         }
 
@@ -181,18 +182,18 @@ namespace TM_2
                     energyAverageCostSum += filka;
                 }
                 uiMainDataGridView.Rows.Add("all", energyTotal, energyAverageCostSum);
-                totalCostSum.EnergyTotal = energyTotal;
-                totalCostSum.EnergyAverageCostSum = energyAverageCostSum;
+                CalculateInfo.EnergyTotal = energyTotal;
+                CalculateInfo.EnergyAverageCostSum = energyAverageCostSum;
                 return energyAverageCostSum;
             }
         }
 
         private double CalculateEnergyTransferCostSum()
         {
-            double energyTotal = totalCostSum.EnergyTotal;
+            double energyTotal = CalculateInfo.EnergyTotal;
             double transferCost = Convert.ToDouble(uiEnergyTransferCostTextBox.Text);
             double energyTransferCostSum = energyTotal*transferCost;
-            totalCostSum.EnergyTransferCostSum = energyTransferCostSum;
+            CalculateInfo.EnergyTransferCostSum = energyTransferCostSum;
             return energyTransferCostSum;
         }
 
@@ -202,43 +203,43 @@ namespace TM_2
             double cfrTotalEnergy = CalculateEnergyCfrCostSum();
             double eesTotalEnergy = CalculateEnergyEesCostSum();
             double energyOtherCostSum = atsTotalEnergy + cfrTotalEnergy + eesTotalEnergy;
-            totalCostSum.EnergyOtherCostSum = energyOtherCostSum;
+            CalculateInfo.EnergyOtherCostSum = energyOtherCostSum;
             return energyOtherCostSum;
         }
 
         private double CalculateEnergyAtsCostSum()
         {
-            double energyTotal = totalCostSum.EnergyTotal;
+            double energyTotal = CalculateInfo.EnergyTotal;
             double cost = Convert.ToDouble(uiEnergyAtsCostValueTextBox.Text);
             double energyAtsCostSum = energyTotal * cost;
-            totalCostSum.EnergyAtsCostSum = energyAtsCostSum;
+            CalculateInfo.EnergyAtsCostSum = energyAtsCostSum;
             return energyAtsCostSum;
         }
 
         private double CalculateEnergyCfrCostSum()
         {
-            double energyTotal = totalCostSum.EnergyTotal;
+            double energyTotal = CalculateInfo.EnergyTotal;
             double cost = Convert.ToDouble(uiEnergyCfrCostValueTextBox.Text);
             double energyCfrCostSum = energyTotal * cost;
-            totalCostSum.EnergyCfrCostSum = energyCfrCostSum;
+            CalculateInfo.EnergyCfrCostSum = energyCfrCostSum;
             return energyCfrCostSum;
         }
 
         private double CalculateEnergyEesCostSum()
         {
-            double energyTotal = totalCostSum.EnergyTotal;
+            double energyTotal = CalculateInfo.EnergyTotal;
             double cost = Convert.ToDouble(uiEnergyEesCostValueTextBox.Text);
             double energyEesCostSum = energyTotal*cost;
-            totalCostSum.EnergyEesCostSum = energyEesCostSum;
+            CalculateInfo.EnergyEesCostSum = energyEesCostSum;
             return energyEesCostSum;
         }
 
         private double CalculateEnergySalesSurchargeCostSum()
         {
-            double energyTotal = totalCostSum.EnergyTotal;
+            double energyTotal = CalculateInfo.EnergyTotal;
             double cost = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text);
             double energySalesSurchargeCostSum = energyTotal*cost;
-            totalCostSum.EnergySalesSurchargeCostSum = energySalesSurchargeCostSum;
+            CalculateInfo.EnergySalesSurchargeCostSum = energySalesSurchargeCostSum;
             return energySalesSurchargeCostSum;
         }
 
@@ -247,7 +248,7 @@ namespace TM_2
             double averagePowerCostSum = CalculatePowerAverageCostSum(mindate, maxdate);
             double salesSurchargePowerSum =  CalculatePowerSalesSurchargeCostSum();
             double powerTotalCost = averagePowerCostSum + salesSurchargePowerSum;
-            totalCostSum.PowerTotalCost = powerTotalCost;
+            CalculateInfo.PowerTotalCost = powerTotalCost;
             uiEnergyTotalCostValueLabel.Text = powerTotalCost.ToString();
             return powerTotalCost;
         }
@@ -286,18 +287,18 @@ namespace TM_2
                     }
                 }
                 var powerAverageCostSum = (powerTotal*cost/dateList.Count);
-                totalCostSum.PowerAverageCostSum = powerAverageCostSum;
-                totalCostSum.PowerTotal = powerTotal;
+                CalculateInfo.PowerAverageCostSum = powerAverageCostSum;
+                CalculateInfo.PowerTotal = powerTotal;
                 return powerAverageCostSum;
             }
         }
 
         private double CalculatePowerSalesSurchargeCostSum()
         {
-            double powerTotal = totalCostSum.PowerTotal;
+            double powerTotal = CalculateInfo.PowerTotal;
             double cost = Convert.ToDouble(uiPowerSalesSurchargeCostValueTextBox.Text);
             double powerSalesSurchargeCostSum = powerTotal * cost;
-            totalCostSum.PowerSalesSurchargeCostSum = powerSalesSurchargeCostSum;
+            CalculateInfo.PowerSalesSurchargeCostSum = powerSalesSurchargeCostSum;
             return powerSalesSurchargeCostSum;
         }
 

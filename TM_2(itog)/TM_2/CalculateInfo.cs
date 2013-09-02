@@ -1,6 +1,6 @@
 ﻿namespace TM_2
 {
-    public class CostSum
+    public class CalculateInfo
     {
         public double TotalCost { get; set; }
 
