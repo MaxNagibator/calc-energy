@@ -100,7 +100,8 @@ namespace TM_2
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
             Calculate();
-
+            var reportForm = new ReportForm(CalculateInfo);
+            reportForm.ShowDialog();
         }
 
         private void Calculate()
@@ -396,14 +397,6 @@ namespace TM_2
             {
                 ((TextBox) sender).Text = "0";
             }
-            //try
-            //{
-            //    Convert.ToDouble((TextBox) sender);
-            //}
-            //catch (Exception)
-            //{
-            //    ((TextBox) sender).Text = "0";
-            //}
         }
 
         private void uiDatesComboBox_SelectedValueChanged(object sender, EventArgs e)
