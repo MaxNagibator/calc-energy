@@ -99,14 +99,16 @@ namespace TM_2
 
         private void Calculate()
         {
+            if(uiObjectRegistrationTreeView.SelectedNode == null)
+            {
+                uiObjectRegistrationTreeView.SelectedNode = uiObjectRegistrationTreeView.Nodes[0];
+            }
             Cursor = Cursors.WaitCursor;
             uiMainDataGridView.Rows.Clear();
-
-            string mindate = "01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 1) + "." +
-                             uiYearsComboBox.SelectedItem;
-            string maxdate = "01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 2) + "." +
-                             uiYearsComboBox.SelectedItem;
-
+            var mindate = Convert.ToDateTime("01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 1) + "." +
+                             uiYearsComboBox.SelectedItem);
+            var maxdate = Convert.ToDateTime("01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 2) + "." +
+                             uiYearsComboBox.SelectedItem);
             CalculateAll(mindate, maxdate);
             ShowResult();
             Cursor = Cursors.Default;
@@ -116,9 +118,6 @@ namespace TM_2
         {
             uiEnergyTotalValueLabel.Text = Math.Round(CalculateInfo.EnergyTotal, 2).ToString();
             uiEnergyAverageCostValueLabel.Text = Math.Round(CalculateInfo.EnergyAverageCostSum, 2).ToString();
-            uiEnergyEesCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyEesCostSum, 2).ToString();
-            uiEnergyAtsCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyAtsCostSum, 2).ToString();
-            uiEnergyCfrCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyCfrCostSum, 2).ToString();
             uiEnergyOtherCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyOtherCostSum, 2).ToString();
             uiEnergyTransferCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyTransferCostSum, 2).ToString();
             uiEnergyTotalCostValueLabel.Text = Math.Round(CalculateInfo.EnergyTotalCost, 2).ToString();
@@ -131,7 +130,7 @@ namespace TM_2
             uiTotalCostValueLabel.Text = Math.Round(CalculateInfo.TotalCost, 2).ToString();
         }
 
-        private void CalculateAll(string mindate, string maxdate)
+        private void CalculateAll(DateTime mindate, DateTime maxdate)
         {
            var energyTotalCostSum = CalculateEnergyTotalCostSum(mindate, maxdate);
            var powerTotalCostSum = CalculatePowerTotalCostSum(mindate, maxdate);
@@ -139,7 +138,7 @@ namespace TM_2
             CalculateInfo.TotalCost = totalCost;
         }
 
-        private double CalculateEnergyTotalCostSum(string mindate, string maxdate)
+        private double CalculateEnergyTotalCostSum(DateTime mindate, DateTime maxdate)
         {
             double energyAverageCostSum = CalculateEnergyAverageCostSum(mindate, maxdate);
             double energyTransferCostSum = CalculateEnergyTransferCostSum();
@@ -150,7 +149,7 @@ namespace TM_2
             return energyTotalCostSum;
         }
 
-        private double CalculateEnergyAverageCostSum(string mindate, string maxdate)
+        private double CalculateEnergyAverageCostSum(DateTime mindate, DateTime maxdate)
         {
             var cmdText = @"SET dateformat dmy 
                         SELECT MeasureDate, Value, Cost
@@ -165,19 +164,17 @@ namespace TM_2
             {
                 double energyTotal = 0;
                 double energyAverageCostSum = 0;
-                double cost = 0;
-                sqlProvider.SetParameter("@MinDate", mindate);
-                sqlProvider.SetParameter("@MaxDate", maxdate);
+                sqlProvider.SetParameter("@MinDate", mindate.AddMinutes(-30));
+                sqlProvider.SetParameter("@MaxDate", maxdate.AddMinutes(-30));
                 sqlProvider.ExecuteQuery(cmdText);
-                foreach (var row in sqlProvider.Rows)
+                for (int i = 0; i < sqlProvider.Rows.Count; i+=2)
                 {
-                    var energyValue = row.Field<double>("Value");
-                    if (row.Field<double?>("Cost") != null)
-                    {
-                        cost = row.Field<double>("Cost");
-                    }
-                    var filka = cost*energyValue/1000;
-                    uiMainDataGridView.Rows.Add(row.Field<DateTime>("MeasureDate"), energyValue, cost, filka);
+                    var energyValue = sqlProvider.Rows[i].Field<double>("Value")+sqlProvider.Rows[i+1].Field<double>("Value");
+                    var cost = sqlProvider.Rows[i + 1].Field<double?>("Cost") != null
+                                   ? sqlProvider.Rows[i + 1].Field<double>("Cost")
+                                   : sqlProvider.Rows[i].Field<double>("Cost");
+                    var filka = cost * energyValue / 1000;
+                    uiMainDataGridView.Rows.Add(sqlProvider.Rows[i+1].Field<DateTime>("MeasureDate"), energyValue, cost, filka);
                     energyTotal += energyValue;
                     energyAverageCostSum += filka;
                 }
@@ -199,39 +196,11 @@ namespace TM_2
 
         private double CalculateEnergyOtherCostSum()
         {
-            double atsTotalEnergy = CalculateEnergyAtsCostSum();
-            double cfrTotalEnergy = CalculateEnergyCfrCostSum();
-            double eesTotalEnergy = CalculateEnergyEesCostSum();
-            double energyOtherCostSum = atsTotalEnergy + cfrTotalEnergy + eesTotalEnergy;
+            double energyTotal = CalculateInfo.EnergyTotal;
+            double cost = Convert.ToDouble(uiEnergyOtherCostValueTextBox.Text);
+            double energyOtherCostSum = energyTotal * cost;
             CalculateInfo.EnergyOtherCostSum = energyOtherCostSum;
             return energyOtherCostSum;
-        }
-
-        private double CalculateEnergyAtsCostSum()
-        {
-            double energyTotal = CalculateInfo.EnergyTotal;
-            double cost = Convert.ToDouble(uiEnergyAtsCostValueTextBox.Text);
-            double energyAtsCostSum = energyTotal * cost;
-            CalculateInfo.EnergyAtsCostSum = energyAtsCostSum;
-            return energyAtsCostSum;
-        }
-
-        private double CalculateEnergyCfrCostSum()
-        {
-            double energyTotal = CalculateInfo.EnergyTotal;
-            double cost = Convert.ToDouble(uiEnergyCfrCostValueTextBox.Text);
-            double energyCfrCostSum = energyTotal * cost;
-            CalculateInfo.EnergyCfrCostSum = energyCfrCostSum;
-            return energyCfrCostSum;
-        }
-
-        private double CalculateEnergyEesCostSum()
-        {
-            double energyTotal = CalculateInfo.EnergyTotal;
-            double cost = Convert.ToDouble(uiEnergyEesCostValueTextBox.Text);
-            double energyEesCostSum = energyTotal*cost;
-            CalculateInfo.EnergyEesCostSum = energyEesCostSum;
-            return energyEesCostSum;
         }
 
         private double CalculateEnergySalesSurchargeCostSum()
@@ -243,7 +212,7 @@ namespace TM_2
             return energySalesSurchargeCostSum;
         }
 
-        private double CalculatePowerTotalCostSum(string mindate, string maxdate)
+        private double CalculatePowerTotalCostSum(DateTime mindate, DateTime maxdate)
         {
             double averagePowerCostSum = CalculatePowerAverageCostSum(mindate, maxdate);
             double salesSurchargePowerSum =  CalculatePowerSalesSurchargeCostSum();
@@ -253,7 +222,7 @@ namespace TM_2
             return powerTotalCost;
         }
 
-        private double CalculatePowerAverageCostSum(string mindate, string maxdate)
+        private double CalculatePowerAverageCostSum(DateTime mindate, DateTime maxdate)
         {
             double cost = Convert.ToDouble(uiPowerAverageCostTextBox.Text);
             double powerTotal = 0;
@@ -318,6 +287,46 @@ namespace TM_2
                 return " AND ((ID_Channel = 34) OR (ID_Channel = 70))";
             }
             return "";
+        }
+
+        private void SaveAllCalcCoefficients(DateTime date)
+        {
+            var energyOtherCost = Convert.ToDouble(uiEnergyOtherCostValueTextBox.Text);
+            var energySalesSurchargeCost = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text);
+            var energyTransferCost = Convert.ToDouble(uiEnergyTransferCostTextBox.Text);
+            var powerSalesSurchargeCost = Convert.ToDouble(uiPowerSalesSurchargeCostValueTextBox.Text);
+            var powerAverageCost = Convert.ToDouble(uiPowerAverageCostTextBox.Text);
+            using (var sqlProvider = Globals.GetSqlProvider())
+            {
+                sqlProvider.AddCommand(@"
+                    DELETE FROM [CalcEnergy].[Coefficients] WHERE Date = @Date");
+                sqlProvider.SetParameter("@Date", date);
+                sqlProvider.ExecuteNonQuery(@"
+                    INSERT INTO [CalcEnergy].[Coefficients] 
+                        (Date
+                        ,EnergyOtherCost
+                        ,EnergySalesSurchargeCost
+                        ,EnergyTransferCost
+                        ,PowerSalesSurchargeCost
+                        ,PowerAverageCost)
+                    VALUES (@Date
+                        ,@EnergyOtherCost
+                        ,@EnergySalesSurchargeCost
+                        ,@EnergyTransferCost
+                        ,@PowerSalesSurchargeCost
+                        ,@PowerAverageCost)");
+                sqlProvider.SetParameter("@Date", date);
+                sqlProvider.SetParameter("@EnergyOtherCost", energyOtherCost);
+                sqlProvider.SetParameter("@EnergySalesSurchargeCost", energySalesSurchargeCost);
+                sqlProvider.SetParameter("@EnergyTransferCost", energyTransferCost);
+                sqlProvider.SetParameter("@PowerSalesSurchargeCost", powerSalesSurchargeCost);
+                sqlProvider.SetParameter("@PowerAverageCost", powerAverageCost);
+            }
+        }
+
+        private void LoadAllCalcCoefficients(DateTime date)
+        {
+
         }
     }
 }
