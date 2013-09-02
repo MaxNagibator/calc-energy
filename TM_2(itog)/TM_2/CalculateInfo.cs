@@ -18,5 +18,20 @@
         public double PowerAverageCostSum { get; set; }
         public double PowerSalesSurchargeCostSum { get; set; }
         public double PowerTotal { get; set; }
+
+        public double CoefficientEnergyOther { get; set; }
+        public double CoefficientEnergySalesSurcharge { get; set; }
+        public double CoefficientEnergyTransfer { get; set; }
+        public double CoefficientPowerSalesSurcharge { get; set; }
+        public double CoefficientPowerAverage { get; set; }
+
+        public void ClearCoefficients()
+        {
+            CoefficientEnergyOther = 0;
+            CoefficientEnergySalesSurcharge = 0;
+            CoefficientEnergyTransfer = 0;
+            CoefficientPowerSalesSurcharge = 0;
+            CoefficientPowerAverage = 0;
+        }
     }
 }

@@ -291,11 +291,6 @@ namespace TM_2
 
         private void SaveAllCalcCoefficients(DateTime date)
         {
-            var energyOtherCost = Convert.ToDouble(uiEnergyOtherCostValueTextBox.Text);
-            var energySalesSurchargeCost = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text);
-            var energyTransferCost = Convert.ToDouble(uiEnergyTransferCostTextBox.Text);
-            var powerSalesSurchargeCost = Convert.ToDouble(uiPowerSalesSurchargeCostValueTextBox.Text);
-            var powerAverageCost = Convert.ToDouble(uiPowerAverageCostTextBox.Text);
             using (var sqlProvider = Globals.GetSqlProvider())
             {
                 sqlProvider.AddCommand(@"
@@ -316,17 +311,56 @@ namespace TM_2
                         ,@PowerSalesSurchargeCost
                         ,@PowerAverageCost)");
                 sqlProvider.SetParameter("@Date", date);
-                sqlProvider.SetParameter("@EnergyOtherCost", energyOtherCost);
-                sqlProvider.SetParameter("@EnergySalesSurchargeCost", energySalesSurchargeCost);
-                sqlProvider.SetParameter("@EnergyTransferCost", energyTransferCost);
-                sqlProvider.SetParameter("@PowerSalesSurchargeCost", powerSalesSurchargeCost);
-                sqlProvider.SetParameter("@PowerAverageCost", powerAverageCost);
+                sqlProvider.SetParameter("@EnergyOtherCost", CalculateInfo.CoefficientEnergyOther);
+                sqlProvider.SetParameter("@EnergySalesSurchargeCost", CalculateInfo.CoefficientEnergySalesSurcharge);
+                sqlProvider.SetParameter("@EnergyTransferCost", CalculateInfo.CoefficientEnergyTransfer);
+                sqlProvider.SetParameter("@PowerSalesSurchargeCost", CalculateInfo.CoefficientPowerSalesSurcharge);
+                sqlProvider.SetParameter("@PowerAverageCost", CalculateInfo.CoefficientPowerAverage);
+                sqlProvider.Commit();
             }
         }
 
         private void LoadAllCalcCoefficients(DateTime date)
         {
+            using (var sqlProvider = Globals.GetSqlProvider())
+            {
+                sqlProvider.SetParameter("@Date", date);
+                sqlProvider.ExecuteQuery(@"
+                   SELECT EnergyOtherCost
+                        ,EnergySalesSurchargeCost
+                        ,EnergyTransferCost
+                        ,PowerSalesSurchargeCost
+                        ,PowerAverageCost
+                    FROM [CalcEnergy].[Coefficients]
+                    WHERE Date = @Date");
+                if (sqlProvider.HasRows)
+                {
+                    CalculateInfo.CoefficientEnergyOther
+                        = sqlProvider.FirstRow.Field<double?>("EnergyOtherCost") ?? 0;
+                    CalculateInfo.CoefficientEnergySalesSurcharge =
+                        sqlProvider.FirstRow.Field<double?>("EnergySalesSurchargeCost") ?? 0;
+                    CalculateInfo.CoefficientEnergyTransfer
+                        = sqlProvider.FirstRow.Field<double?>("EnergyTransferCost") ?? 0;
+                    CalculateInfo.CoefficientPowerSalesSurcharge
+                        = sqlProvider.FirstRow.Field<double?>("PowerSalesSurchargeCost") ?? 0;
+                    CalculateInfo.CoefficientPowerAverage
+                        = sqlProvider.FirstRow.Field<double?>("PowerAverageCost") ?? 0;
+                }
+                else
+                {
+                    CalculateInfo.ClearCoefficients();
+                }
+                ShowCoefficients();
+            }
+        }
 
+        private void ShowCoefficients()
+        {
+            uiEnergyOtherCostValueTextBox.Text = CalculateInfo.CoefficientEnergyOther.ToString();
+            uiEnergySalesSurchargeCostValueTextBox.Text = CalculateInfo.CoefficientEnergySalesSurcharge.ToString();
+            uiEnergyTransferCostTextBox.Text = CalculateInfo.CoefficientEnergyTransfer.ToString();
+            uiPowerSalesSurchargeCostValueTextBox.Text = CalculateInfo.CoefficientPowerSalesSurcharge.ToString();
+            uiPowerAverageCostTextBox.Text = CalculateInfo.CoefficientPowerAverage.ToString();
         }
     }
 }
