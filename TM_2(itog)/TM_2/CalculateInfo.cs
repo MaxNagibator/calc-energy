@@ -8,9 +8,6 @@
         public double EnergyAverageCostSum { get; set; }
         public double EnergyTransferCostSum { get; set; }
         public double EnergyOtherCostSum { get; set; }
-        public double EnergyAtsCostSum { get; set; }
-        public double EnergyCfrCostSum { get; set; }
-        public double EnergyEesCostSum { get; set; }
         public double EnergySalesSurchargeCostSum { get; set; }
         public double EnergyTotal { get; set; }
 

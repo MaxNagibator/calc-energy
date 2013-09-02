@@ -99,6 +99,7 @@ namespace TM_2
 
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
+            SaveAllCalcCoefficients(_selectedDate);
             Calculate();
             var reportForm = new ReportForm(CalculateInfo);
             reportForm.ShowDialog();
