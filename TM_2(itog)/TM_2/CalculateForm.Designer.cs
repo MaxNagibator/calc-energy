@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalculateForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle13 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle14 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle15 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.uiImportCostButton = new System.Windows.Forms.Button();
             this.uiOldMainFormButton = new System.Windows.Forms.Button();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -149,6 +149,7 @@
             this.uiMonthComboBox.Name = "uiMonthComboBox";
             this.uiMonthComboBox.Size = new System.Drawing.Size(105, 21);
             this.uiMonthComboBox.TabIndex = 10;
+            this.uiMonthComboBox.SelectedValueChanged += new System.EventHandler(this.uiDatesComboBox_SelectedValueChanged);
             // 
             // uiYearsComboBox
             // 
@@ -157,6 +158,7 @@
             this.uiYearsComboBox.Name = "uiYearsComboBox";
             this.uiYearsComboBox.Size = new System.Drawing.Size(71, 21);
             this.uiYearsComboBox.TabIndex = 9;
+            this.uiYearsComboBox.SelectedValueChanged += new System.EventHandler(this.uiDatesComboBox_SelectedValueChanged);
             // 
             // button_Excel_Save
             // 
@@ -211,14 +213,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.uiMainDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.uiMainDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.uiMainDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.uiMainDataGridView.ColumnHeadersHeight = 31;
             this.uiMainDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Points,
@@ -233,8 +235,8 @@
             // 
             // Points
             // 
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Points.DefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Points.DefaultCellStyle = dataGridViewCellStyle7;
             this.Points.FillWeight = 120F;
             this.Points.HeaderText = "Интервал";
             this.Points.Name = "Points";
@@ -244,8 +246,8 @@
             // 
             // Energy
             // 
-            dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Energy.DefaultCellStyle = dataGridViewCellStyle13;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Energy.DefaultCellStyle = dataGridViewCellStyle8;
             this.Energy.HeaderText = "А+, Вт/ч.";
             this.Energy.Name = "Energy";
             this.Energy.ReadOnly = true;
@@ -254,8 +256,8 @@
             // 
             // Tariff
             // 
-            dataGridViewCellStyle14.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Tariff.DefaultCellStyle = dataGridViewCellStyle14;
+            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Tariff.DefaultCellStyle = dataGridViewCellStyle9;
             this.Tariff.HeaderText = "Тариф, руб./кВт.ч.";
             this.Tariff.Name = "Tariff";
             this.Tariff.ReadOnly = true;
@@ -264,8 +266,8 @@
             // 
             // Summa
             // 
-            dataGridViewCellStyle15.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Summa.DefaultCellStyle = dataGridViewCellStyle15;
+            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Summa.DefaultCellStyle = dataGridViewCellStyle10;
             this.Summa.HeaderText = "Сумма, руб.";
             this.Summa.Name = "Summa";
             this.Summa.ReadOnly = true;
@@ -324,6 +326,7 @@
             this.uiEnergyTransferCostTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergyTransferCostTextBox.TabIndex = 19;
             this.uiEnergyTransferCostTextBox.Text = "1,36671";
+            this.uiEnergyTransferCostTextBox.Leave += new System.EventHandler(this.uiPowerAverageCostTextBox_Leave);
             // 
             // uiEnergyTransferCostSumLabel
             // 
@@ -368,6 +371,7 @@
             this.uiEnergyOtherCostValueTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergyOtherCostValueTextBox.TabIndex = 35;
             this.uiEnergyOtherCostValueTextBox.Text = "0,00092";
+            this.uiEnergyOtherCostValueTextBox.Leave += new System.EventHandler(this.uiPowerAverageCostTextBox_Leave);
             // 
             // uiEnergyOtherCostLabel
             // 
@@ -385,6 +389,7 @@
             this.uiEnergySalesSurchargeCostValueTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergySalesSurchargeCostValueTextBox.TabIndex = 41;
             this.uiEnergySalesSurchargeCostValueTextBox.Text = "0,83586";
+            this.uiEnergySalesSurchargeCostValueTextBox.Leave += new System.EventHandler(this.uiPowerAverageCostTextBox_Leave);
             // 
             // uiEnergySalesSurchargeCostLabel
             // 
@@ -438,6 +443,7 @@
             this.uiPowerAverageCostTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiPowerAverageCostTextBox.TabIndex = 47;
             this.uiPowerAverageCostTextBox.Text = "0,18894623";
+            this.uiPowerAverageCostTextBox.Leave += new System.EventHandler(this.uiPowerAverageCostTextBox_Leave);
             // 
             // uiPowerAverageCostLabel
             // 
@@ -501,6 +507,7 @@
             this.uiPowerSalesSurchargeCostValueTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiPowerSalesSurchargeCostValueTextBox.TabIndex = 54;
             this.uiPowerSalesSurchargeCostValueTextBox.Text = "0,18894623";
+            this.uiPowerSalesSurchargeCostValueTextBox.Leave += new System.EventHandler(this.uiPowerAverageCostTextBox_Leave);
             // 
             // uiPowerSalesSurchargeCostLabel
             // 
