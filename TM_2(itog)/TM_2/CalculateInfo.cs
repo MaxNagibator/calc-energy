@@ -20,6 +20,7 @@
 
         public double CoefficientEnergyOther { get; set; }
         public double CoefficientEnergySalesSurcharge { get; set; }
+        public double CoefficientEnergySalesSurcharge2 { get; set; }
         public double CoefficientEnergyTransfer { get; set; }
         public double CoefficientPowerSalesSurcharge { get; set; }
         public double CoefficientPowerAverage { get; set; }

@@ -1,17 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Data;
 using System.Drawing;
 using System.Data.OleDb;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 
 namespace TM_2
 {
     public partial class ImportHourPowerForm : Form
     {
-        DataTable resultTable;
-        SqlDataAdapter dbAdapter;
         Point DateBeginCell;
         Point HourBeginCell;
 
@@ -42,6 +38,7 @@ namespace TM_2
                     uiDateRowTextBox.ReadOnly = false;
                     uiHourColumnTextBox.ReadOnly = false;
                     uiHourRowTextBox.ReadOnly = false;
+                    uiHourShiftTextBox.ReadOnly = false;
                     uiLoadToDataBaseButton.Enabled = true;
                 }
                 catch (Exception ex)
@@ -95,6 +92,7 @@ namespace TM_2
             DateBeginCell.Y = Convert.ToInt16(uiDateRowTextBox.Text);
             HourBeginCell.X = Convert.ToInt16(uiHourColumnTextBox.Text);
             HourBeginCell.Y = Convert.ToInt16(uiHourRowTextBox.Text);
+            var hourShift = Convert.ToInt16(uiHourShiftTextBox.Text);
             using (var sqlProvider = Globals.GetSqlProvider())
             {
                 int i = DateBeginCell.Y;
@@ -103,7 +101,7 @@ namespace TM_2
                 {
 
                     DateTime date = Convert.ToDateTime(uiMainDataGridView.Rows[i].Cells[DateBeginCell.X].Value);
-                    int hour = Convert.ToInt32(uiMainDataGridView.Rows[i].Cells[HourBeginCell.X].Value);
+                    int hour = Convert.ToInt32(uiMainDataGridView.Rows[i].Cells[HourBeginCell.X].Value) + hourShift;
                     sqlProvider.AddCommand(@"IF EXISTS(SELECT Date FROM [CalcEnergy].[PowerHour] WHERE Date = @Date)
                                                 BEGIN
                                                     UPDATE [CalcEnergy].[PowerHour] SET Hour = @Hour

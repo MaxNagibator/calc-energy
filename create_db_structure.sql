@@ -31,7 +31,8 @@ CREATE TABLE [CalcEnergy].[Coefficients] (
   ,EnergyOtherCost float DEFAULT 0 NOT NULL
   ,EnergySalesSurchargeCost float DEFAULT 0 NOT NULL
   ,EnergyTransferCost float DEFAULT 0 NOT NULL
-  ,PowerSalesSurchargeCost float DEFAULT 0 NOT NULL
+  ,PowerSalesSurchargeCost float DEFAULT 0 NOT NULL  
+  ,PowerSalesSurchargeCost2 float DEFAULT 0 NOT NULL
   ,PowerAverageCost float DEFAULT 0 NOT NULL
 )
 GO

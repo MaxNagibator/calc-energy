@@ -15,9 +15,11 @@ namespace TM_2
         {
             InitializeComponent();
             AddFirstRow();
+            AddTo(calculateInfo);
             AddEnergyAverageCostSum(calculateInfo); 
             AddTransferCostSum(calculateInfo);
             AddOtherCostSum(calculateInfo);
+            AddSalesSurchargeCostSum(calculateInfo);
         }
 
         private void AddFirstRow()
@@ -25,37 +27,41 @@ namespace TM_2
             uiMainDataGridView.Rows.Add("1", "2а", "2б", "3", "4", "5", "6", "7", "8", "9");
         }
 
+        private void AddTo(CalculateInfo calculateInfo)
+        {
+            AddRow(calculateInfo.EnergyTotalCost, calculateInfo.EnergyTotal, (calculateInfo.EnergyTotalCost / calculateInfo.EnergyTotal), "1. Ставка на электроэнергию по тарифу(цене) в т.ч.");
+        
+        }
+
         private void AddEnergyAverageCostSum(CalculateInfo calculateInfo)
         {
-            var costTax = CalculateInfo.TaxValue * calculateInfo.EnergyAverageCostSum;
-            uiMainDataGridView.Rows.Add("1.1 Средневзвешанная стоимость покупки э/энергии", "245", "кВт*ч",
-                                        calculateInfo.EnergyTotal.ToString("0.00"),
-                                        (calculateInfo.EnergyAverageCostSum/calculateInfo.EnergyTotal).ToString("0.00000"),
-                                        calculateInfo.EnergyAverageCostSum.ToString("0.00"), "без акциза",
-                                        CalculateInfo.TaxValue, (costTax).ToString("0.00"),
-                                        (costTax + calculateInfo.EnergyAverageCostSum).ToString("0.00"));
+            AddRow(calculateInfo.EnergyAverageCostSum, calculateInfo.EnergyTotal, (calculateInfo.EnergyAverageCostSum / calculateInfo.EnergyTotal), "1.1 Средневзвешанная стоимость покупки э/энергии");
         }
 
         private void AddTransferCostSum(CalculateInfo calculateInfo)
         {
-            var costTax = CalculateInfo.TaxValue * calculateInfo.EnergyTransferCostSum;
-            uiMainDataGridView.Rows.Add("1.2 Тариф на услуги по передаче э/энергии", "245", "кВт*ч",
-                                        calculateInfo.EnergyTotal.ToString("0.00"),
-                                        calculateInfo.CoefficientEnergyTransfer.ToString("0.00000"),
-                                        calculateInfo.EnergyTransferCostSum.ToString("0.00"), "без акциза",
-                                        CalculateInfo.TaxValue, (costTax).ToString("0.00"),
-                                        (costTax + calculateInfo.EnergyTransferCostSum).ToString("0.00"));
+            AddRow(calculateInfo.EnergyTransferCostSum, calculateInfo.EnergyTotal, calculateInfo.CoefficientEnergyTransfer, "1.2 Тариф на услуги по передаче э/энергии");
         }
 
         private void AddOtherCostSum(CalculateInfo calculateInfo)
         {
-            var costTax = CalculateInfo.TaxValue * calculateInfo.EnergyOtherCostSum;
-            uiMainDataGridView.Rows.Add("1.3 Плата за иные услуги", "245", "кВт*ч",
-                                        calculateInfo.EnergyTotal.ToString("0.00"),
-                                        calculateInfo.CoefficientEnergyOther.ToString("0.00000"),
-                                        calculateInfo.EnergyOtherCostSum.ToString("0.00"), "без акциза",
+            AddRow(calculateInfo.EnergyOtherCostSum, calculateInfo.EnergyTotal, calculateInfo.CoefficientEnergyOther, "1.3 Плата за иные услуги");
+        }
+
+        private void AddSalesSurchargeCostSum(CalculateInfo calculateInfo)
+        {
+            AddRow(calculateInfo.EnergySalesSurchargeCostSum, calculateInfo.EnergyTotal, (calculateInfo.EnergySalesSurchargeCostSum / calculateInfo.EnergyTotal), "1.4 Сбытовая надбавка");
+        }
+
+        private void AddRow(double energyCostSum, double energyTotal, double coefficientEnergyCost, string name)
+        {
+            var costTax = CalculateInfo.TaxValue * energyCostSum;
+            uiMainDataGridView.Rows.Add(name, "245", "кВт*ч",
+                                        energyTotal.ToString("0.00"),
+                                        coefficientEnergyCost.ToString("0.00000"),
+                                        energyCostSum.ToString("0.00"), "без акциза",
                                         CalculateInfo.TaxValue, (costTax).ToString("0.00"),
-                                        (costTax + calculateInfo.EnergyOtherCostSum).ToString("0.00"));
+                                        (costTax + energyCostSum).ToString("0.00"));
         }
     }
 }

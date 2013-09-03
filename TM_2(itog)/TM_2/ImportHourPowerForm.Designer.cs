@@ -53,6 +53,8 @@ namespace TM_2
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.uiHourShiftTextBox = new System.Windows.Forms.TextBox();
+            this.uiHourShiftLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.uiMainDataGridView)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -71,8 +73,8 @@ namespace TM_2
             // 
             this.uiMainDataGridView.AllowUserToAddRows = false;
             this.uiMainDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-                                    | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.uiMainDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.uiMainDataGridView.Location = new System.Drawing.Point(12, 132);
             this.uiMainDataGridView.MultiSelect = false;
@@ -86,7 +88,7 @@ namespace TM_2
             // OpenFileStringBox
             // 
             this.OpenFileStringBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.OpenFileStringBox.Location = new System.Drawing.Point(55, 9);
             this.OpenFileStringBox.Name = "OpenFileStringBox";
             this.OpenFileStringBox.Size = new System.Drawing.Size(862, 20);
@@ -135,7 +137,9 @@ namespace TM_2
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.uiHourShiftTextBox);
+            this.panel1.Controls.Add(this.uiHourShiftLabel);
             this.panel1.Controls.Add(this.uiHourRowTextBox);
             this.panel1.Controls.Add(this.uiHourColumnTextBox);
             this.panel1.Controls.Add(this.uiDateRowTextBox);
@@ -245,7 +249,26 @@ namespace TM_2
             this.label2.TabIndex = 8;
             this.label2.Text = "столбец";
             // 
-            // LoadHourDialog
+            // uiHourShiftTextBox
+            // 
+            this.uiHourShiftTextBox.Location = new System.Drawing.Point(616, 64);
+            this.uiHourShiftTextBox.Name = "uiHourShiftTextBox";
+            this.uiHourShiftTextBox.ReadOnly = true;
+            this.uiHourShiftTextBox.Size = new System.Drawing.Size(100, 20);
+            this.uiHourShiftTextBox.TabIndex = 23;
+            this.uiHourShiftTextBox.Text = "-1";
+            // 
+            // uiHourShiftLabel
+            // 
+            this.uiHourShiftLabel.AutoSize = true;
+            this.uiHourShiftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.uiHourShiftLabel.Location = new System.Drawing.Point(548, 64);
+            this.uiHourShiftLabel.Name = "uiHourShiftLabel";
+            this.uiHourShiftLabel.Size = new System.Drawing.Size(53, 17);
+            this.uiHourShiftLabel.TabIndex = 22;
+            this.uiHourShiftLabel.Text = "строка";
+            // 
+            // ImportHourPowerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -256,7 +279,7 @@ namespace TM_2
             this.Controls.Add(this.uiMainDataGridView);
             this.Controls.Add(this.label1);
             this.MinimumSize = new System.Drawing.Size(1024, 768);
-            this.Name = "LoadHourDialog";
+            this.Name = "ImportHourPowerForm";
             this.Text = "Импорт часов максимального совокупного энергопотребления из XLS файла";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             ((System.ComponentModel.ISupportInitialize)(this.uiMainDataGridView)).EndInit();
@@ -264,6 +287,7 @@ namespace TM_2
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
         private System.Windows.Forms.TextBox uiHourColumnTextBox;
         private System.Windows.Forms.TextBox uiHourRowTextBox;
@@ -282,5 +306,7 @@ namespace TM_2
         private System.Windows.Forms.TextBox OpenFileStringBox;
         private System.Windows.Forms.DataGridView uiMainDataGridView;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox uiHourShiftTextBox;
+        private System.Windows.Forms.Label uiHourShiftLabel;
     }
 }
