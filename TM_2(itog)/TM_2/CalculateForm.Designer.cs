@@ -68,7 +68,7 @@
             this.uiEnergyTotalCostValueLabel = new System.Windows.Forms.Label();
             this.uiEnergyTotalCostLabel = new System.Windows.Forms.Label();
             this.uiPowerAverageCostTextBox = new System.Windows.Forms.TextBox();
-            this.uiPowerAverageCostLabel = new System.Windows.Forms.Label();
+            this.uiPowerAverageCostPart1Label = new System.Windows.Forms.Label();
             this.uiPowerHourButton = new System.Windows.Forms.Button();
             this.uiPowerAverageCostSumLabel = new System.Windows.Forms.Label();
             this.uiPowerAverageCostSumValueLabel = new System.Windows.Forms.Label();
@@ -82,13 +82,16 @@
             this.uiTotalCostValueLabel = new System.Windows.Forms.Label();
             this.uiEnergySalesSurchargeCost2ValueTextBox = new System.Windows.Forms.TextBox();
             this.uiEnergySalesSurchargeCost2Label = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.uiPowerAverageCostPart2Label = new System.Windows.Forms.Label();
             this.panel9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiMainDataGridView)).BeginInit();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // uiImportCostButton
             // 
-            this.uiImportCostButton.Location = new System.Drawing.Point(179, 12);
+            this.uiImportCostButton.Location = new System.Drawing.Point(227, 8);
             this.uiImportCostButton.Name = "uiImportCostButton";
             this.uiImportCostButton.Size = new System.Drawing.Size(171, 23);
             this.uiImportCostButton.TabIndex = 1;
@@ -108,6 +111,8 @@
             // 
             // panel9
             // 
+            this.panel9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel9.Controls.Add(this.label6);
             this.panel9.Controls.Add(this.uiMonthComboBox);
@@ -115,7 +120,7 @@
             this.panel9.Controls.Add(this.button_Excel_Save);
             this.panel9.Controls.Add(this.button_Word_Save);
             this.panel9.Controls.Add(this.uiCalculateButton);
-            this.panel9.Location = new System.Drawing.Point(12, 178);
+            this.panel9.Location = new System.Drawing.Point(12, 144);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(386, 72);
             this.panel9.TabIndex = 4;
@@ -131,6 +136,7 @@
             // 
             // uiMonthComboBox
             // 
+            this.uiMonthComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.uiMonthComboBox.FormattingEnabled = true;
             this.uiMonthComboBox.Items.AddRange(new object[] {
             "Январь",
@@ -170,6 +176,7 @@
             this.button_Excel_Save.Size = new System.Drawing.Size(40, 40);
             this.button_Excel_Save.TabIndex = 8;
             this.button_Excel_Save.UseVisualStyleBackColor = true;
+            this.button_Excel_Save.Visible = false;
             // 
             // button_Word_Save
             // 
@@ -197,12 +204,12 @@
             // 
             // uiObjectRegistrationTreeView
             // 
-            this.uiObjectRegistrationTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.uiObjectRegistrationTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.uiObjectRegistrationTreeView.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.uiObjectRegistrationTreeView.Location = new System.Drawing.Point(12, 70);
             this.uiObjectRegistrationTreeView.Name = "uiObjectRegistrationTreeView";
-            this.uiObjectRegistrationTreeView.Size = new System.Drawing.Size(386, 99);
+            this.uiObjectRegistrationTreeView.Size = new System.Drawing.Size(386, 65);
             this.uiObjectRegistrationTreeView.TabIndex = 12;
             // 
             // uiMainDataGridView
@@ -227,7 +234,7 @@
             this.Energy,
             this.Tariff,
             this.Summa});
-            this.uiMainDataGridView.Location = new System.Drawing.Point(404, 12);
+            this.uiMainDataGridView.Location = new System.Drawing.Point(-237, -95);
             this.uiMainDataGridView.Name = "uiMainDataGridView";
             this.uiMainDataGridView.RowHeadersVisible = false;
             this.uiMainDataGridView.Size = new System.Drawing.Size(524, 238);
@@ -277,7 +284,7 @@
             // uiEnergyAverageCostSumLabel
             // 
             this.uiEnergyAverageCostSumLabel.AutoSize = true;
-            this.uiEnergyAverageCostSumLabel.Location = new System.Drawing.Point(45, 347);
+            this.uiEnergyAverageCostSumLabel.Location = new System.Drawing.Point(43, 103);
             this.uiEnergyAverageCostSumLabel.Name = "uiEnergyAverageCostSumLabel";
             this.uiEnergyAverageCostSumLabel.Size = new System.Drawing.Size(210, 13);
             this.uiEnergyAverageCostSumLabel.TabIndex = 14;
@@ -286,7 +293,7 @@
             // uiEnergyAverageCostValueLabel
             // 
             this.uiEnergyAverageCostValueLabel.AutoSize = true;
-            this.uiEnergyAverageCostValueLabel.Location = new System.Drawing.Point(319, 347);
+            this.uiEnergyAverageCostValueLabel.Location = new System.Drawing.Point(317, 103);
             this.uiEnergyAverageCostValueLabel.Name = "uiEnergyAverageCostValueLabel";
             this.uiEnergyAverageCostValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiEnergyAverageCostValueLabel.TabIndex = 15;
@@ -295,7 +302,7 @@
             // uiEnergyTotalValueLabel
             // 
             this.uiEnergyTotalValueLabel.AutoSize = true;
-            this.uiEnergyTotalValueLabel.Location = new System.Drawing.Point(318, 253);
+            this.uiEnergyTotalValueLabel.Location = new System.Drawing.Point(316, 9);
             this.uiEnergyTotalValueLabel.Name = "uiEnergyTotalValueLabel";
             this.uiEnergyTotalValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiEnergyTotalValueLabel.TabIndex = 17;
@@ -304,7 +311,7 @@
             // uiEnergyTotalLabel
             // 
             this.uiEnergyTotalLabel.AutoSize = true;
-            this.uiEnergyTotalLabel.Location = new System.Drawing.Point(12, 253);
+            this.uiEnergyTotalLabel.Location = new System.Drawing.Point(10, 9);
             this.uiEnergyTotalLabel.Name = "uiEnergyTotalLabel";
             this.uiEnergyTotalLabel.Size = new System.Drawing.Size(102, 13);
             this.uiEnergyTotalLabel.TabIndex = 16;
@@ -313,7 +320,7 @@
             // uiEnergyTransferCostLabel
             // 
             this.uiEnergyTransferCostLabel.AutoSize = true;
-            this.uiEnergyTransferCostLabel.Location = new System.Drawing.Point(398, 267);
+            this.uiEnergyTransferCostLabel.Location = new System.Drawing.Point(12, 230);
             this.uiEnergyTransferCostLabel.Name = "uiEnergyTransferCostLabel";
             this.uiEnergyTransferCostLabel.Size = new System.Drawing.Size(211, 13);
             this.uiEnergyTransferCostLabel.TabIndex = 18;
@@ -321,7 +328,7 @@
             // 
             // uiEnergyTransferCostTextBox
             // 
-            this.uiEnergyTransferCostTextBox.Location = new System.Drawing.Point(829, 267);
+            this.uiEnergyTransferCostTextBox.Location = new System.Drawing.Point(298, 227);
             this.uiEnergyTransferCostTextBox.Name = "uiEnergyTransferCostTextBox";
             this.uiEnergyTransferCostTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergyTransferCostTextBox.TabIndex = 19;
@@ -331,7 +338,7 @@
             // uiEnergyTransferCostSumLabel
             // 
             this.uiEnergyTransferCostSumLabel.AutoSize = true;
-            this.uiEnergyTransferCostSumLabel.Location = new System.Drawing.Point(45, 376);
+            this.uiEnergyTransferCostSumLabel.Location = new System.Drawing.Point(43, 132);
             this.uiEnergyTransferCostSumLabel.Name = "uiEnergyTransferCostSumLabel";
             this.uiEnergyTransferCostSumLabel.Size = new System.Drawing.Size(196, 13);
             this.uiEnergyTransferCostSumLabel.TabIndex = 20;
@@ -340,7 +347,7 @@
             // uiEnergyTransferCostSumValueLabel
             // 
             this.uiEnergyTransferCostSumValueLabel.AutoSize = true;
-            this.uiEnergyTransferCostSumValueLabel.Location = new System.Drawing.Point(319, 376);
+            this.uiEnergyTransferCostSumValueLabel.Location = new System.Drawing.Point(317, 132);
             this.uiEnergyTransferCostSumValueLabel.Name = "uiEnergyTransferCostSumValueLabel";
             this.uiEnergyTransferCostSumValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiEnergyTransferCostSumValueLabel.TabIndex = 21;
@@ -349,7 +356,7 @@
             // uiEnergyOtherCostSumValueLabel
             // 
             this.uiEnergyOtherCostSumValueLabel.AutoSize = true;
-            this.uiEnergyOtherCostSumValueLabel.Location = new System.Drawing.Point(319, 405);
+            this.uiEnergyOtherCostSumValueLabel.Location = new System.Drawing.Point(317, 161);
             this.uiEnergyOtherCostSumValueLabel.Name = "uiEnergyOtherCostSumValueLabel";
             this.uiEnergyOtherCostSumValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiEnergyOtherCostSumValueLabel.TabIndex = 23;
@@ -358,7 +365,7 @@
             // uiEnergyOtherCostSumLabel
             // 
             this.uiEnergyOtherCostSumLabel.AutoSize = true;
-            this.uiEnergyOtherCostSumLabel.Location = new System.Drawing.Point(45, 405);
+            this.uiEnergyOtherCostSumLabel.Location = new System.Drawing.Point(43, 161);
             this.uiEnergyOtherCostSumLabel.Name = "uiEnergyOtherCostSumLabel";
             this.uiEnergyOtherCostSumLabel.Size = new System.Drawing.Size(118, 13);
             this.uiEnergyOtherCostSumLabel.TabIndex = 22;
@@ -366,7 +373,7 @@
             // 
             // uiEnergyOtherCostValueTextBox
             // 
-            this.uiEnergyOtherCostValueTextBox.Location = new System.Drawing.Point(829, 293);
+            this.uiEnergyOtherCostValueTextBox.Location = new System.Drawing.Point(298, 253);
             this.uiEnergyOtherCostValueTextBox.Name = "uiEnergyOtherCostValueTextBox";
             this.uiEnergyOtherCostValueTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergyOtherCostValueTextBox.TabIndex = 35;
@@ -376,7 +383,7 @@
             // uiEnergyOtherCostLabel
             // 
             this.uiEnergyOtherCostLabel.AutoSize = true;
-            this.uiEnergyOtherCostLabel.Location = new System.Drawing.Point(401, 296);
+            this.uiEnergyOtherCostLabel.Location = new System.Drawing.Point(12, 256);
             this.uiEnergyOtherCostLabel.Name = "uiEnergyOtherCostLabel";
             this.uiEnergyOtherCostLabel.Size = new System.Drawing.Size(120, 13);
             this.uiEnergyOtherCostLabel.TabIndex = 34;
@@ -384,7 +391,7 @@
             // 
             // uiEnergySalesSurchargeCostValueTextBox
             // 
-            this.uiEnergySalesSurchargeCostValueTextBox.Location = new System.Drawing.Point(829, 345);
+            this.uiEnergySalesSurchargeCostValueTextBox.Location = new System.Drawing.Point(298, 308);
             this.uiEnergySalesSurchargeCostValueTextBox.Name = "uiEnergySalesSurchargeCostValueTextBox";
             this.uiEnergySalesSurchargeCostValueTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergySalesSurchargeCostValueTextBox.TabIndex = 41;
@@ -394,7 +401,7 @@
             // uiEnergySalesSurchargeCostLabel
             // 
             this.uiEnergySalesSurchargeCostLabel.AutoSize = true;
-            this.uiEnergySalesSurchargeCostLabel.Location = new System.Drawing.Point(398, 345);
+            this.uiEnergySalesSurchargeCostLabel.Location = new System.Drawing.Point(12, 308);
             this.uiEnergySalesSurchargeCostLabel.Name = "uiEnergySalesSurchargeCostLabel";
             this.uiEnergySalesSurchargeCostLabel.Size = new System.Drawing.Size(189, 13);
             this.uiEnergySalesSurchargeCostLabel.TabIndex = 40;
@@ -403,7 +410,7 @@
             // uiEnergySalesSurchargeCostSumValueLabel
             // 
             this.uiEnergySalesSurchargeCostSumValueLabel.AutoSize = true;
-            this.uiEnergySalesSurchargeCostSumValueLabel.Location = new System.Drawing.Point(318, 427);
+            this.uiEnergySalesSurchargeCostSumValueLabel.Location = new System.Drawing.Point(316, 183);
             this.uiEnergySalesSurchargeCostSumValueLabel.Name = "uiEnergySalesSurchargeCostSumValueLabel";
             this.uiEnergySalesSurchargeCostSumValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiEnergySalesSurchargeCostSumValueLabel.TabIndex = 43;
@@ -412,7 +419,7 @@
             // uiEnergySalesSurchargeCostSumLabel
             // 
             this.uiEnergySalesSurchargeCostSumLabel.AutoSize = true;
-            this.uiEnergySalesSurchargeCostSumLabel.Location = new System.Drawing.Point(44, 427);
+            this.uiEnergySalesSurchargeCostSumLabel.Location = new System.Drawing.Point(42, 183);
             this.uiEnergySalesSurchargeCostSumLabel.Name = "uiEnergySalesSurchargeCostSumLabel";
             this.uiEnergySalesSurchargeCostSumLabel.Size = new System.Drawing.Size(169, 13);
             this.uiEnergySalesSurchargeCostSumLabel.TabIndex = 42;
@@ -421,7 +428,7 @@
             // uiEnergyTotalCostValueLabel
             // 
             this.uiEnergyTotalCostValueLabel.AutoSize = true;
-            this.uiEnergyTotalCostValueLabel.Location = new System.Drawing.Point(319, 315);
+            this.uiEnergyTotalCostValueLabel.Location = new System.Drawing.Point(317, 71);
             this.uiEnergyTotalCostValueLabel.Name = "uiEnergyTotalCostValueLabel";
             this.uiEnergyTotalCostValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiEnergyTotalCostValueLabel.TabIndex = 45;
@@ -430,7 +437,7 @@
             // uiEnergyTotalCostLabel
             // 
             this.uiEnergyTotalCostLabel.AutoSize = true;
-            this.uiEnergyTotalCostLabel.Location = new System.Drawing.Point(12, 315);
+            this.uiEnergyTotalCostLabel.Location = new System.Drawing.Point(10, 71);
             this.uiEnergyTotalCostLabel.Name = "uiEnergyTotalCostLabel";
             this.uiEnergyTotalCostLabel.Size = new System.Drawing.Size(257, 13);
             this.uiEnergyTotalCostLabel.TabIndex = 44;
@@ -438,25 +445,25 @@
             // 
             // uiPowerAverageCostTextBox
             // 
-            this.uiPowerAverageCostTextBox.Location = new System.Drawing.Point(829, 368);
+            this.uiPowerAverageCostTextBox.Location = new System.Drawing.Point(298, 357);
             this.uiPowerAverageCostTextBox.Name = "uiPowerAverageCostTextBox";
             this.uiPowerAverageCostTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiPowerAverageCostTextBox.TabIndex = 47;
             this.uiPowerAverageCostTextBox.Text = "188,94623";
             this.uiPowerAverageCostTextBox.Leave += new System.EventHandler(this.uiPowerAverageCostTextBox_Leave);
             // 
-            // uiPowerAverageCostLabel
+            // uiPowerAverageCostPart1Label
             // 
-            this.uiPowerAverageCostLabel.AutoSize = true;
-            this.uiPowerAverageCostLabel.Location = new System.Drawing.Point(398, 371);
-            this.uiPowerAverageCostLabel.Name = "uiPowerAverageCostLabel";
-            this.uiPowerAverageCostLabel.Size = new System.Drawing.Size(425, 13);
-            this.uiPowerAverageCostLabel.TabIndex = 46;
-            this.uiPowerAverageCostLabel.Text = "Средневзвешенная нерегулируемая цена на мощность на оптовом рынке. руб/Вт";
+            this.uiPowerAverageCostPart1Label.AutoSize = true;
+            this.uiPowerAverageCostPart1Label.Location = new System.Drawing.Point(12, 334);
+            this.uiPowerAverageCostPart1Label.Name = "uiPowerAverageCostPart1Label";
+            this.uiPowerAverageCostPart1Label.Size = new System.Drawing.Size(219, 13);
+            this.uiPowerAverageCostPart1Label.TabIndex = 46;
+            this.uiPowerAverageCostPart1Label.Text = "Средневзвешенная нерегулируемая цена\r\n";
             // 
             // uiPowerHourButton
             // 
-            this.uiPowerHourButton.Location = new System.Drawing.Point(179, 41);
+            this.uiPowerHourButton.Location = new System.Drawing.Point(227, 37);
             this.uiPowerHourButton.Name = "uiPowerHourButton";
             this.uiPowerHourButton.Size = new System.Drawing.Size(171, 23);
             this.uiPowerHourButton.TabIndex = 48;
@@ -467,7 +474,7 @@
             // uiPowerAverageCostSumLabel
             // 
             this.uiPowerAverageCostSumLabel.AutoSize = true;
-            this.uiPowerAverageCostSumLabel.Location = new System.Drawing.Point(46, 496);
+            this.uiPowerAverageCostSumLabel.Location = new System.Drawing.Point(44, 252);
             this.uiPowerAverageCostSumLabel.Name = "uiPowerAverageCostSumLabel";
             this.uiPowerAverageCostSumLabel.Size = new System.Drawing.Size(161, 13);
             this.uiPowerAverageCostSumLabel.TabIndex = 49;
@@ -476,7 +483,7 @@
             // uiPowerAverageCostSumValueLabel
             // 
             this.uiPowerAverageCostSumValueLabel.AutoSize = true;
-            this.uiPowerAverageCostSumValueLabel.Location = new System.Drawing.Point(318, 496);
+            this.uiPowerAverageCostSumValueLabel.Location = new System.Drawing.Point(316, 252);
             this.uiPowerAverageCostSumValueLabel.Name = "uiPowerAverageCostSumValueLabel";
             this.uiPowerAverageCostSumValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiPowerAverageCostSumValueLabel.TabIndex = 50;
@@ -485,7 +492,7 @@
             // uiPowerSalesSurchargeCostSumValueLabel
             // 
             this.uiPowerSalesSurchargeCostSumValueLabel.AutoSize = true;
-            this.uiPowerSalesSurchargeCostSumValueLabel.Location = new System.Drawing.Point(318, 519);
+            this.uiPowerSalesSurchargeCostSumValueLabel.Location = new System.Drawing.Point(316, 275);
             this.uiPowerSalesSurchargeCostSumValueLabel.Name = "uiPowerSalesSurchargeCostSumValueLabel";
             this.uiPowerSalesSurchargeCostSumValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiPowerSalesSurchargeCostSumValueLabel.TabIndex = 52;
@@ -494,7 +501,7 @@
             // uiPowerSalesSurchargeCostSumLabel
             // 
             this.uiPowerSalesSurchargeCostSumLabel.AutoSize = true;
-            this.uiPowerSalesSurchargeCostSumLabel.Location = new System.Drawing.Point(46, 519);
+            this.uiPowerSalesSurchargeCostSumLabel.Location = new System.Drawing.Point(44, 275);
             this.uiPowerSalesSurchargeCostSumLabel.Name = "uiPowerSalesSurchargeCostSumLabel";
             this.uiPowerSalesSurchargeCostSumLabel.Size = new System.Drawing.Size(177, 13);
             this.uiPowerSalesSurchargeCostSumLabel.TabIndex = 51;
@@ -503,7 +510,7 @@
             // uiPowerTotalCostLabel
             // 
             this.uiPowerTotalCostLabel.AutoSize = true;
-            this.uiPowerTotalCostLabel.Location = new System.Drawing.Point(15, 470);
+            this.uiPowerTotalCostLabel.Location = new System.Drawing.Point(13, 226);
             this.uiPowerTotalCostLabel.Name = "uiPowerTotalCostLabel";
             this.uiPowerTotalCostLabel.Size = new System.Drawing.Size(296, 13);
             this.uiPowerTotalCostLabel.TabIndex = 55;
@@ -512,7 +519,7 @@
             // uiPowerTotalCostValueLabel
             // 
             this.uiPowerTotalCostValueLabel.AutoSize = true;
-            this.uiPowerTotalCostValueLabel.Location = new System.Drawing.Point(317, 470);
+            this.uiPowerTotalCostValueLabel.Location = new System.Drawing.Point(315, 226);
             this.uiPowerTotalCostValueLabel.Name = "uiPowerTotalCostValueLabel";
             this.uiPowerTotalCostValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiPowerTotalCostValueLabel.TabIndex = 50;
@@ -521,7 +528,7 @@
             // uiPowerTotalLabel
             // 
             this.uiPowerTotalLabel.AutoSize = true;
-            this.uiPowerTotalLabel.Location = new System.Drawing.Point(12, 274);
+            this.uiPowerTotalLabel.Location = new System.Drawing.Point(10, 30);
             this.uiPowerTotalLabel.Name = "uiPowerTotalLabel";
             this.uiPowerTotalLabel.Size = new System.Drawing.Size(113, 13);
             this.uiPowerTotalLabel.TabIndex = 16;
@@ -530,7 +537,7 @@
             // uiPowerTotalValueLabel
             // 
             this.uiPowerTotalValueLabel.AutoSize = true;
-            this.uiPowerTotalValueLabel.Location = new System.Drawing.Point(318, 274);
+            this.uiPowerTotalValueLabel.Location = new System.Drawing.Point(316, 30);
             this.uiPowerTotalValueLabel.Name = "uiPowerTotalValueLabel";
             this.uiPowerTotalValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiPowerTotalValueLabel.TabIndex = 17;
@@ -539,7 +546,7 @@
             // uiTotalCostLabel
             // 
             this.uiTotalCostLabel.AutoSize = true;
-            this.uiTotalCostLabel.Location = new System.Drawing.Point(9, 292);
+            this.uiTotalCostLabel.Location = new System.Drawing.Point(7, 48);
             this.uiTotalCostLabel.Name = "uiTotalCostLabel";
             this.uiTotalCostLabel.Size = new System.Drawing.Size(91, 13);
             this.uiTotalCostLabel.TabIndex = 56;
@@ -548,7 +555,7 @@
             // uiTotalCostValueLabel
             // 
             this.uiTotalCostValueLabel.AutoSize = true;
-            this.uiTotalCostValueLabel.Location = new System.Drawing.Point(319, 292);
+            this.uiTotalCostValueLabel.Location = new System.Drawing.Point(317, 48);
             this.uiTotalCostValueLabel.Name = "uiTotalCostValueLabel";
             this.uiTotalCostValueLabel.Size = new System.Drawing.Size(13, 13);
             this.uiTotalCostValueLabel.TabIndex = 57;
@@ -556,70 +563,92 @@
             // 
             // uiEnergySalesSurchargeCost2ValueTextBox
             // 
-            this.uiEnergySalesSurchargeCost2ValueTextBox.Location = new System.Drawing.Point(829, 319);
+            this.uiEnergySalesSurchargeCost2ValueTextBox.Location = new System.Drawing.Point(298, 279);
             this.uiEnergySalesSurchargeCost2ValueTextBox.Name = "uiEnergySalesSurchargeCost2ValueTextBox";
             this.uiEnergySalesSurchargeCost2ValueTextBox.Size = new System.Drawing.Size(100, 20);
             this.uiEnergySalesSurchargeCost2ValueTextBox.TabIndex = 59;
-            this.uiEnergySalesSurchargeCost2ValueTextBox.Text = "11111111111111111111111111111111111111111111111111";
+            this.uiEnergySalesSurchargeCost2ValueTextBox.Text = "0,1315";
             // 
             // uiEnergySalesSurchargeCost2Label
             // 
             this.uiEnergySalesSurchargeCost2Label.AutoSize = true;
-            this.uiEnergySalesSurchargeCost2Label.Location = new System.Drawing.Point(398, 319);
+            this.uiEnergySalesSurchargeCost2Label.Location = new System.Drawing.Point(12, 282);
             this.uiEnergySalesSurchargeCost2Label.Name = "uiEnergySalesSurchargeCost2Label";
             this.uiEnergySalesSurchargeCost2Label.Size = new System.Drawing.Size(189, 13);
             this.uiEnergySalesSurchargeCost2Label.TabIndex = 58;
             this.uiEnergySalesSurchargeCost2Label.Text = "Сбытовая надбавка коэффициент 1";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.uiEnergyTotalLabel);
+            this.panel1.Controls.Add(this.uiEnergyAverageCostSumLabel);
+            this.panel1.Controls.Add(this.uiEnergyAverageCostValueLabel);
+            this.panel1.Controls.Add(this.uiTotalCostValueLabel);
+            this.panel1.Controls.Add(this.uiPowerTotalLabel);
+            this.panel1.Controls.Add(this.uiTotalCostLabel);
+            this.panel1.Controls.Add(this.uiEnergyTotalValueLabel);
+            this.panel1.Controls.Add(this.uiPowerTotalCostLabel);
+            this.panel1.Controls.Add(this.uiPowerTotalValueLabel);
+            this.panel1.Controls.Add(this.uiPowerSalesSurchargeCostSumValueLabel);
+            this.panel1.Controls.Add(this.uiEnergyTransferCostSumLabel);
+            this.panel1.Controls.Add(this.uiPowerSalesSurchargeCostSumLabel);
+            this.panel1.Controls.Add(this.uiMainDataGridView);
+            this.panel1.Controls.Add(this.uiEnergyTransferCostSumValueLabel);
+            this.panel1.Controls.Add(this.uiPowerTotalCostValueLabel);
+            this.panel1.Controls.Add(this.uiEnergyOtherCostSumLabel);
+            this.panel1.Controls.Add(this.uiPowerAverageCostSumValueLabel);
+            this.panel1.Controls.Add(this.uiEnergyOtherCostSumValueLabel);
+            this.panel1.Controls.Add(this.uiPowerAverageCostSumLabel);
+            this.panel1.Controls.Add(this.uiEnergySalesSurchargeCostSumLabel);
+            this.panel1.Controls.Add(this.uiEnergySalesSurchargeCostSumValueLabel);
+            this.panel1.Controls.Add(this.uiEnergyTotalCostLabel);
+            this.panel1.Controls.Add(this.uiEnergyTotalCostValueLabel);
+            this.panel1.Location = new System.Drawing.Point(419, 12);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(170, 53);
+            this.panel1.TabIndex = 60;
+            this.panel1.Visible = false;
+            // 
+            // uiPowerAverageCostPart2Label
+            // 
+            this.uiPowerAverageCostPart2Label.AutoSize = true;
+            this.uiPowerAverageCostPart2Label.Location = new System.Drawing.Point(82, 347);
+            this.uiPowerAverageCostPart2Label.Name = "uiPowerAverageCostPart2Label";
+            this.uiPowerAverageCostPart2Label.Size = new System.Drawing.Size(210, 26);
+            this.uiPowerAverageCostPart2Label.TabIndex = 61;
+            this.uiPowerAverageCostPart2Label.Text = "\r\nна мощность на оптовом рынке. руб/Вт";
+            // 
             // CalculateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 667);
+            this.ClientSize = new System.Drawing.Size(419, 399);
+            this.Controls.Add(this.uiPowerAverageCostPart2Label);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.uiEnergySalesSurchargeCost2ValueTextBox);
             this.Controls.Add(this.uiEnergySalesSurchargeCost2Label);
-            this.Controls.Add(this.uiTotalCostValueLabel);
-            this.Controls.Add(this.uiTotalCostLabel);
-            this.Controls.Add(this.uiPowerTotalCostLabel);
-            this.Controls.Add(this.uiPowerSalesSurchargeCostSumValueLabel);
-            this.Controls.Add(this.uiPowerSalesSurchargeCostSumLabel);
-            this.Controls.Add(this.uiPowerTotalCostValueLabel);
-            this.Controls.Add(this.uiPowerAverageCostSumValueLabel);
-            this.Controls.Add(this.uiPowerAverageCostSumLabel);
             this.Controls.Add(this.uiPowerHourButton);
             this.Controls.Add(this.uiPowerAverageCostTextBox);
-            this.Controls.Add(this.uiPowerAverageCostLabel);
-            this.Controls.Add(this.uiEnergyTotalCostValueLabel);
-            this.Controls.Add(this.uiEnergyTotalCostLabel);
-            this.Controls.Add(this.uiEnergySalesSurchargeCostSumValueLabel);
-            this.Controls.Add(this.uiEnergySalesSurchargeCostSumLabel);
+            this.Controls.Add(this.uiPowerAverageCostPart1Label);
             this.Controls.Add(this.uiEnergySalesSurchargeCostValueTextBox);
             this.Controls.Add(this.uiEnergySalesSurchargeCostLabel);
             this.Controls.Add(this.uiEnergyOtherCostValueTextBox);
             this.Controls.Add(this.uiEnergyOtherCostLabel);
-            this.Controls.Add(this.uiEnergyOtherCostSumValueLabel);
-            this.Controls.Add(this.uiEnergyOtherCostSumLabel);
-            this.Controls.Add(this.uiEnergyTransferCostSumValueLabel);
-            this.Controls.Add(this.uiEnergyTransferCostSumLabel);
             this.Controls.Add(this.uiEnergyTransferCostTextBox);
             this.Controls.Add(this.uiEnergyTransferCostLabel);
-            this.Controls.Add(this.uiPowerTotalValueLabel);
-            this.Controls.Add(this.uiEnergyTotalValueLabel);
-            this.Controls.Add(this.uiPowerTotalLabel);
-            this.Controls.Add(this.uiEnergyTotalLabel);
-            this.Controls.Add(this.uiEnergyAverageCostValueLabel);
-            this.Controls.Add(this.uiEnergyAverageCostSumLabel);
-            this.Controls.Add(this.uiMainDataGridView);
             this.Controls.Add(this.uiObjectRegistrationTreeView);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.uiOldMainFormButton);
             this.Controls.Add(this.uiImportCostButton);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalculateForm";
             this.Text = "Расчёт стоимости";
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.uiMainDataGridView)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -661,7 +690,7 @@
         private System.Windows.Forms.Label uiEnergyTotalCostValueLabel;
         private System.Windows.Forms.Label uiEnergyTotalCostLabel;
         private System.Windows.Forms.TextBox uiPowerAverageCostTextBox;
-        private System.Windows.Forms.Label uiPowerAverageCostLabel;
+        private System.Windows.Forms.Label uiPowerAverageCostPart1Label;
         private System.Windows.Forms.Button uiPowerHourButton;
         private System.Windows.Forms.Label uiPowerAverageCostSumLabel;
         private System.Windows.Forms.Label uiPowerAverageCostSumValueLabel;
@@ -675,5 +704,7 @@
         private System.Windows.Forms.Label uiTotalCostValueLabel;
         private System.Windows.Forms.TextBox uiEnergySalesSurchargeCost2ValueTextBox;
         private System.Windows.Forms.Label uiEnergySalesSurchargeCost2Label;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label uiPowerAverageCostPart2Label;
     }
 }

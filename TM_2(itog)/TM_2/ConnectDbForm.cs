@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Text;
@@ -8,9 +7,6 @@ using System.Collections.Generic;
 
 namespace TM_2
 {
-    /// <summary>
-    /// Description of ConnectDB.
-    /// </summary>
     public partial class ConnectDbForm : Form
     {
         public ConnectDbForm()

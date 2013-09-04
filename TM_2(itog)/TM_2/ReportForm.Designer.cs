@@ -74,7 +74,7 @@
             this.uiMainDataGridView.Location = new System.Drawing.Point(0, 0);
             this.uiMainDataGridView.Name = "uiMainDataGridView";
             this.uiMainDataGridView.RowHeadersVisible = false;
-            this.uiMainDataGridView.Size = new System.Drawing.Size(1064, 540);
+            this.uiMainDataGridView.Size = new System.Drawing.Size(1064, 341);
             this.uiMainDataGridView.TabIndex = 14;
             // 
             // uiNameColumn
@@ -147,11 +147,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1064, 540);
+            this.ClientSize = new System.Drawing.Size(1064, 341);
             this.Controls.Add(this.uiMainDataGridView);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ReportForm";
-            this.Text = "ReportForm";
+            this.Text = "Отчет";
             ((System.ComponentModel.ISupportInitialize)(this.uiMainDataGridView)).EndInit();
             this.ResumeLayout(false);
 

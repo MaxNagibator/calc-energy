@@ -43,6 +43,7 @@ namespace TM_2
             uiYearsComboBox.SelectedIndex = maxyear - minyear;
             uiMonthComboBox.SelectedIndex = DateTime.Now.Month - 2;
             _selectedDate = GetSelectedDate();
+            LoadAllCalcCoefficients(_selectedDate);
         }
 
         private void LoadObjectRegistrationNodes()
