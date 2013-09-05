@@ -102,14 +102,14 @@ namespace TM_2
 
                     DateTime date = Convert.ToDateTime(uiMainDataGridView.Rows[i].Cells[DateBeginCell.X].Value);
                     int hour = Convert.ToInt32(uiMainDataGridView.Rows[i].Cells[HourBeginCell.X].Value) + hourShift;
-                    sqlProvider.AddCommand(@"IF EXISTS(SELECT Date FROM [CalcEnergy].[PowerHour] WHERE Date = @Date)
+                    sqlProvider.AddCommand(@"IF EXISTS(SELECT Date FROM [dbo].[CalcEnergyPowerHour] WHERE Date = @Date)
                                                 BEGIN
-                                                    UPDATE [CalcEnergy].[PowerHour] SET Hour = @Hour
+                                                    UPDATE [dbo].[CalcEnergyPowerHour] SET Hour = @Hour
                                                     WHERE Date = @Date
                                                 END
                                             ELSE
                                                 BEGIN
-                                                    INSERT INTO [CalcEnergy].[PowerHour] (Date, Hour) VALUES (@Date, @Hour)
+                                                    INSERT INTO [dbo].[CalcEnergyPowerHour] (Date, Hour) VALUES (@Date, @Hour)
                                                 END");
                     sqlProvider.SetParameter("@Date", date);
                     sqlProvider.SetParameter("@Hour", hour);

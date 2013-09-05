@@ -30,13 +30,38 @@ CREATE TABLE [CalcEnergy].[Coefficients] (
   [Date] datetime NOT NULL
   ,EnergyOtherCost float DEFAULT 0 NOT NULL
   ,EnergySalesSurchargeCost float DEFAULT 0 NOT NULL
+  ,EnergySalesSurchargeCost2 float DEFAULT 0 NOT NULL
   ,EnergyTransferCost float DEFAULT 0 NOT NULL
   ,PowerSalesSurchargeCost float DEFAULT 0 NOT NULL  
-  ,PowerSalesSurchargeCost2 float DEFAULT 0 NOT NULL
   ,PowerAverageCost float DEFAULT 0 NOT NULL
 )
 GO
-
+--------------------
 EXEC sp_addextendedproperty 'MS_Description', N'различные коеффициенты для рассчёта
 ', N'schema', N'CalcEnergy', N'table', N'Coefficients'
+GO
+
+CREATE TABLE [dbo].[CalcEnergyHourPrice] (
+  [Date] datetime NOT NULL,
+  [Cost] float DEFAULT 0 NOT NULL,
+  UNIQUE ([Date])
+)
+GO
+
+CREATE TABLE [dbo].[CalcEnergyPowerHour] (
+  [Date] datetime NOT NULL,
+  [Hour] int DEFAULT 0 NOT NULL
+)
+GO
+
+
+CREATE TABLE [dbo].[CalcEnergyCoefficients] (
+  [Date] datetime NOT NULL
+  ,EnergyOtherCost float DEFAULT 0 NOT NULL
+  ,EnergySalesSurchargeCost float DEFAULT 0 NOT NULL
+  ,EnergySalesSurchargeCost2 float DEFAULT 0 NOT NULL
+  ,EnergyTransferCost float DEFAULT 0 NOT NULL
+  ,PowerSalesSurchargeCost float DEFAULT 0 NOT NULL  
+  ,PowerAverageCost float DEFAULT 0 NOT NULL
+)
 GO

@@ -42,6 +42,7 @@ namespace TM_2
             }
             uiYearsComboBox.SelectedIndex = maxyear - minyear;
             uiMonthComboBox.SelectedIndex = DateTime.Now.Month - 2;
+            CalculateInfo.ClearCoefficients();
             _selectedDate = GetSelectedDate();
             LoadAllCalcCoefficients(_selectedDate);
         }
@@ -170,7 +171,7 @@ namespace TM_2
             var cmdText = @"SET dateformat dmy 
                         SELECT MeasureDate, Value, Cost
                         FROM Mains
-                        LEFT JOIN [CalcEnergy].[HourPrice] AS HP ON HP.Date = Mains.MeasureDate
+                        LEFT JOIN [dbo].[CalcEnergyHourPrice] AS HP ON HP.Date = Mains.MeasureDate
                         WHERE (MeasureDate >= @MinDate AND MeasureDate < @MaxDate)";
 
             cmdText += GetObjectChanelId();
@@ -249,7 +250,7 @@ namespace TM_2
                 sqlProvider.SetParameter("@MinDate", mindate);
                 sqlProvider.SetParameter("@MaxDate", maxdate);
                 sqlProvider.ExecuteQuery(@"SELECT Date, Hour
-                        FROM [CalcEnergy].[PowerHour]
+                        FROM [dbo].[CalcEnergyPowerHour]
                         WHERE (Date >= @MinDate AND Date < @MaxDate)");
 
                 var dateList =
@@ -315,10 +316,10 @@ namespace TM_2
             using (var sqlProvider = Globals.GetSqlProvider())
             {
                 sqlProvider.AddCommand(@"
-                    DELETE FROM [CalcEnergy].[Coefficients] WHERE Date = @Date");
+                    DELETE FROM [dbo].[CalcEnergyCoefficients] WHERE Date = @Date");
                 sqlProvider.SetParameter("@Date", date);
                 sqlProvider.AddCommand(@"
-                    INSERT INTO [CalcEnergy].[Coefficients] 
+                    INSERT INTO [dbo].[CalcEnergyCoefficients] 
                         (Date
                         ,EnergyOtherCost
                         ,EnergySalesSurchargeCost
@@ -355,6 +356,8 @@ namespace TM_2
 
         private void LoadAllCalcCoefficients(DateTime date)
         {
+            try
+            {
             using (var sqlProvider = Globals.GetSqlProvider())
             {
                 sqlProvider.SetParameter("@Date", date);
@@ -364,7 +367,7 @@ namespace TM_2
                         ,EnergySalesSurchargeCost2
                         ,EnergyTransferCost
                         ,PowerAverageCost
-                    FROM [CalcEnergy].[Coefficients]
+                    FROM [dbo].[CalcEnergyCoefficients]
                     WHERE Date = @Date");
                 if (sqlProvider.HasRows)
                 {
@@ -384,6 +387,11 @@ namespace TM_2
                     CalculateInfo.ClearCoefficients();
                 }
                 ShowCoefficients();
+            }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 

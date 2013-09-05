@@ -94,15 +94,15 @@ namespace TM_2
                        uiMainDataGridView.Rows[rowIndex].Cells[costColumn].Value.ToString().Equals("") != true)
                 {
                     DateTime date = GetDateFromGridView(rowIndex, dateColumn, hourColumn);
-                    var cost = GetCostFromGridView(rowIndex, costColumn); 
-                    sqlProvider.AddCommand(@"IF EXISTS(SELECT Date FROM [CalcEnergy].[HourPrice] WHERE Date = @Date)
+                    var cost = GetCostFromGridView(rowIndex, costColumn);
+                    sqlProvider.AddCommand(@"IF EXISTS(SELECT Date FROM [dbo].[CalcEnergyHourPrice] WHERE Date = @Date)
                                                 BEGIN
-                                                    UPDATE [CalcEnergy].[HourPrice] SET Cost = @Cost
+                                                    UPDATE [dbo].[CalcEnergyHourPrice] SET Cost = @Cost
                                                     WHERE Date = @Date
                                                 END
                                             ELSE
                                                 BEGIN
-                                                    INSERT INTO [CalcEnergy].[HourPrice] (Date, Cost) VALUES (@Date, @Cost)
+                                                    INSERT INTO [dbo].[CalcEnergyHourPrice] (Date, Cost) VALUES (@Date, @Cost)
                                                 END");
                     sqlProvider.SetParameter("@Date", date);
                     sqlProvider.SetParameter("@Cost", cost);
@@ -129,8 +129,9 @@ namespace TM_2
 
         private Double GetCostFromGridView(int rowIndex, int costColumn)
         {
-            return Convert.ToDouble(
+            var costFromGridView = (float) Convert.ToDouble(
                 uiMainDataGridView.Rows[rowIndex].Cells[costColumn].Value.ToString().Replace(".", ","));
+            return costFromGridView;
         }
 
         private void InitializeBeginPosition()
