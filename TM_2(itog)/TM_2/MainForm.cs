@@ -406,18 +406,19 @@ namespace TM_2
 
         private void writeXLSdata(string filename)
         {
-            //string filename = "C:\\ItogData.xls";
-            OleDbConnection xlsConn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename +
+            var xlsConn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename +
                                                           ";Extended Properties=\"Excel 8.0\"");
             xlsConn.Open();
-            OleDbCommand xlsCmd = new OleDbCommand();
-            xlsCmd.Connection = xlsConn;
-            xlsCmd.CommandText = "INSERT INTO MyTable VALUES ('" + NameObjekt + "', '" + Period + "', '" +
-                                 resultEnergi.ToString("#.00") + "', '"
-                                 + resultCoast.ToString("#.00") + "', '" + (resultCoast*0.18).ToString("#.00") + "', '" +
-                                 (resultCoast*1.18).ToString("#.00") + "')";
+            var xlsCmd = new OleDbCommand
+                             {
+                                 Connection = xlsConn,
+                                 CommandText = "INSERT INTO MyTable VALUES ('" + NameObjekt + "', '" + Period + "', '" +
+                                               resultEnergi.ToString("#.00") + "', '"
+                                               + resultCoast.ToString("#.00") + "', '" +
+                                               (resultCoast*0.18).ToString("#.00") + "', '" +
+                                               (resultCoast*1.18).ToString("#.00") + "')"
+                             };
             xlsCmd.ExecuteNonQuery();
-
             xlsConn.Close();
         }
 

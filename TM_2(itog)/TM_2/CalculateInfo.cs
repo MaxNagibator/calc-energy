@@ -16,7 +16,7 @@
         public double PowerSalesSurchargeCostSum { get; set; }
         public double PowerTotal { get; set; }
 
-        public const double TaxValue = 0.18;
+        public double TaxValue = 0.18;
 
         public double CoefficientEnergyOther { get; set; }
         public double CoefficientEnergySalesSurcharge { get; set; }
