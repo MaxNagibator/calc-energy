@@ -109,12 +109,6 @@ namespace TM_2
             importHourPowerForm.ShowDialog();
         }
 
-        private void uiOldMainFormButton_Click(object sender, EventArgs e)
-        {
-            var a = new MainForm();
-            a.ShowDialog();
-        }
-
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
             SaveAllCalcCoefficients(CalculateInfo.Date);
@@ -300,6 +294,43 @@ namespace TM_2
             return "";
         }
 
+        private void ShowCoefficients()
+        {
+            uiEnergyOtherCostValueTextBox.Text = CalculateInfo.CoefficientEnergyOther.ToString();
+            uiEnergySalesSurchargeCostValueTextBox.Text = CalculateInfo.CoefficientEnergySalesSurcharge.ToString();
+            uiEnergySalesSurchargeCost2ValueTextBox.Text = CalculateInfo.CoefficientEnergySalesSurcharge2.ToString();
+            uiEnergyTransferCostTextBox.Text = CalculateInfo.CoefficientEnergyTransfer.ToString();
+            uiPowerAverageCostTextBox.Text = CalculateInfo.CoefficientPowerAverage.ToString();
+        }
+
+        private void uiCoefficientTextBox_Leave(object sender, EventArgs e)
+        {
+            double outputValue;
+            var c = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+            var t = ((TextBox) sender).Text.Replace('.', c).Replace(',', c);
+            ((TextBox) sender).Text = t;
+            var isNumber = double.TryParse(t, out outputValue);
+            if (!isNumber)
+            {
+                ((TextBox) sender).Text = "0";
+            }
+        }
+
+        private void uiDatesComboBox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (_isFormLoaded)
+            {
+                ChangeDate();
+            }
+        }
+
+        private void ChangeDate()
+        {
+            SaveAllCalcCoefficients(CalculateInfo.Date);
+            CalculateInfo.Date = GetSelectedDate();
+            LoadAllCalcCoefficients(CalculateInfo.Date);
+        }
+
         private void SaveAllCalcCoefficients(DateTime date)
         {
             GetCoefficientsFromForm();
@@ -386,38 +417,5 @@ namespace TM_2
             }
         }
 
-        private void ShowCoefficients()
-        {
-            uiEnergyOtherCostValueTextBox.Text = CalculateInfo.CoefficientEnergyOther.ToString();
-            uiEnergySalesSurchargeCostValueTextBox.Text = CalculateInfo.CoefficientEnergySalesSurcharge.ToString();
-            uiEnergySalesSurchargeCost2ValueTextBox.Text = CalculateInfo.CoefficientEnergySalesSurcharge2.ToString();
-            uiEnergyTransferCostTextBox.Text = CalculateInfo.CoefficientEnergyTransfer.ToString();
-            uiPowerAverageCostTextBox.Text = CalculateInfo.CoefficientPowerAverage.ToString();
-        }
-
-        private void uiPowerAverageCostTextBox_Leave(object sender, EventArgs e)
-        {
-            double outputValue;
-            var isNumber = double.TryParse(((TextBox) sender).Text, out outputValue);
-            if (!isNumber)
-            {
-                ((TextBox) sender).Text = "0";
-            }
-        }
-
-        private void uiDatesComboBox_SelectedValueChanged(object sender, EventArgs e)
-        {
-            if (_isFormLoaded)
-            {
-                ChangeDate();
-            }
-        }
-
-        private void ChangeDate()
-        {
-            SaveAllCalcCoefficients(CalculateInfo.Date);
-            CalculateInfo.Date = GetSelectedDate();
-            LoadAllCalcCoefficients(CalculateInfo.Date);
-        }
     }
 }
