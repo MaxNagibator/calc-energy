@@ -34,11 +34,14 @@ namespace TM_2
                     uiDateRowTextBox.ReadOnly = false;
                     uiCostColumnTextBox.ReadOnly = false;
                     uiCoastRowTextBox.ReadOnly = false;
+                    uiPowerAverageCostTextBox.ReadOnly = false;
+                    uiPowerAverageCostRowTextBox.ReadOnly = false;
+                    uiPowerAverageCostColumnTextBox.ReadOnly = false;
                     uiLoadToDataBaseButton.Enabled = true;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                    MessageBox.Show("Ошибка при прочтении фаила: " + ex.Message);
                 }
             }
         }
@@ -87,6 +90,7 @@ namespace TM_2
             int hourColumn = dateColumn + 1;
             int costColumn = Convert.ToInt16(uiCostColumnTextBox.Text);
 
+            DateTime? powerAverageCostDate = null;
             using (var sqlProvider = Globals.GetSqlProvider())
             {
                 while ((uiMainDataGridView.Rows.Count > rowIndex) &&
@@ -104,12 +108,14 @@ namespace TM_2
                                                 BEGIN
                                                     INSERT INTO [dbo].[CalcEnergyHourPrice] (Date, Cost) VALUES (@Date, @Cost)
                                                 END");
+                    powerAverageCostDate = date;
                     sqlProvider.SetParameter("@Date", date);
                     sqlProvider.SetParameter("@Cost", cost);
                     rowIndex++;
                 }
                 try
                 {
+                    ImportPowerAverageCostTextBox(powerAverageCostDate);
                     sqlProvider.Commit();
                     MessageBox.Show("Изменения в базе данных выполнены", "Уведомление о результатах");
                     Close();
@@ -118,6 +124,43 @@ namespace TM_2
                 {
                     MessageBox.Show(ex.Message, "Уведомление о результатах");
                 }
+            }
+        }
+
+        private void ImportPowerAverageCostTextBox(DateTime? date)
+        {
+            if (date != null)
+            {
+                double value;
+                var c = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+                if (uiPowerAverageCostTextBox.Text == "")
+                {
+                    int averageCostColumn = Convert.ToInt16(uiPowerAverageCostColumnTextBox.Text);
+                    int averageCostRow = Convert.ToInt16(uiPowerAverageCostRowTextBox.Text);
+                    value =
+                        Convert.ToDouble(
+                            uiMainDataGridView[averageCostColumn, averageCostRow].Value.ToString().Replace('.', c).
+                                Replace(',', c));
+                }
+                else
+                {
+                    value = Convert.ToDouble(uiPowerAverageCostTextBox.Text.Replace('.', c).Replace(',', c));
+                }
+                using (var sqlProvider = Globals.GetSqlProvider())
+                {
+                    var d = new DateTime(date.Value.Year, date.Value.Month, 1);
+                    sqlProvider.SetParameter("@Date", d);
+                    sqlProvider.SetParameter("@PowerAverageCost", value/1000);
+                    sqlProvider.ExecuteNonQuery(@"
+                    UPDATE [dbo].[CalcEnergyCoefficients]
+                    SET PowerAverageCost = @PowerAverageCost
+                    WHERE Date = @Date");
+                }
+            }
+            else
+            {
+                MessageBox.Show(
+                    "Неудалось занести в базу данных 'Средневзвешенная нерегулируемая цена на мощность на оптовом рынке. руб/МВт', не удалось прочитать дату");
             }
         }
 
@@ -138,6 +181,9 @@ namespace TM_2
         {
             var dateBeginCell = new Point(0, 41);
             var costBeginCell = new Point(5, 41);
+            var powerAverageCostCell = new Point(1, 24);
+            uiPowerAverageCostColumnTextBox.Text = powerAverageCostCell.X.ToString();
+            uiPowerAverageCostRowTextBox.Text = powerAverageCostCell.Y.ToString();
             uiDateColumnTextBox.Text = dateBeginCell.X.ToString();
             uiDateRowTextBox.Text = dateBeginCell.Y.ToString();
             uiCostColumnTextBox.Text = costBeginCell.X.ToString();

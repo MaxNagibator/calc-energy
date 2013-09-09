@@ -10,33 +10,33 @@
 namespace TM_2
 {
     partial class ImportCostForm
-	{
-		/// <summary>
-		/// Designer variable used to keep track of non-visual components.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
-		
-		/// <summary>
-		/// Disposes resources used by the form.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
-		
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
-		private void InitializeComponent()
-		{
+    {
+        /// <summary>
+        /// Designer variable used to keep track of non-visual components.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+        
+        /// <summary>
+        /// Disposes resources used by the form.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) {
+                if (components != null) {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+        
+        /// <summary>
+        /// This method is required for Windows Forms designer support.
+        /// Do not change the method contents inside the source code editor. The Forms designer might
+        /// not be able to load this method if it was changed manually.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.label1 = new System.Windows.Forms.Label();
             this.uiMainDataGridView = new System.Windows.Forms.DataGridView();
             this.OpenFileStringBox = new System.Windows.Forms.TextBox();
@@ -44,7 +44,12 @@ namespace TM_2
             this.uiLoadToDataBaseButton = new System.Windows.Forms.Button();
             this.uiCancelButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.uiPowerAverageCostColumnTextBox = new System.Windows.Forms.TextBox();
+            this.uiPowerAverageCostRowTextBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.uiPowerAverageCostTextBox = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.uiCostColumnTextBox = new System.Windows.Forms.TextBox();
             this.uiCoastRowTextBox = new System.Windows.Forms.TextBox();
@@ -77,13 +82,13 @@ namespace TM_2
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.uiMainDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.uiMainDataGridView.Location = new System.Drawing.Point(12, 159);
+            this.uiMainDataGridView.Location = new System.Drawing.Point(12, 178);
             this.uiMainDataGridView.MultiSelect = false;
             this.uiMainDataGridView.Name = "uiMainDataGridView";
             this.uiMainDataGridView.ReadOnly = true;
             this.uiMainDataGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
             this.uiMainDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.uiMainDataGridView.Size = new System.Drawing.Size(992, 577);
+            this.uiMainDataGridView.Size = new System.Drawing.Size(992, 558);
             this.uiMainDataGridView.TabIndex = 1;
             // 
             // OpenFileStringBox
@@ -139,7 +144,12 @@ namespace TM_2
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.textBox1);
+            this.panel1.Controls.Add(this.label11);
+            this.panel1.Controls.Add(this.uiPowerAverageCostColumnTextBox);
+            this.panel1.Controls.Add(this.uiPowerAverageCostRowTextBox);
+            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.label10);
+            this.panel1.Controls.Add(this.uiPowerAverageCostTextBox);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.uiCostColumnTextBox);
             this.panel1.Controls.Add(this.uiCoastRowTextBox);
@@ -155,25 +165,72 @@ namespace TM_2
             this.panel1.Controls.Add(this.uiLoadToDataBaseButton);
             this.panel1.Location = new System.Drawing.Point(12, 37);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(992, 116);
+            this.panel1.Size = new System.Drawing.Size(992, 135);
             this.panel1.TabIndex = 6;
             // 
-            // textBox1
+            // label11
             // 
-            this.textBox1.Location = new System.Drawing.Point(206, 90);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 23;
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label11.Location = new System.Drawing.Point(361, 105);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(156, 17);
+            this.label11.TabIndex = 28;
+            this.label11.Text = "или введите значение";
+            // 
+            // uiPowerAverageCostColumnTextBox
+            // 
+            this.uiPowerAverageCostColumnTextBox.Location = new System.Drawing.Point(90, 104);
+            this.uiPowerAverageCostColumnTextBox.Name = "uiPowerAverageCostColumnTextBox";
+            this.uiPowerAverageCostColumnTextBox.ReadOnly = true;
+            this.uiPowerAverageCostColumnTextBox.Size = new System.Drawing.Size(100, 20);
+            this.uiPowerAverageCostColumnTextBox.TabIndex = 27;
+            // 
+            // uiPowerAverageCostRowTextBox
+            // 
+            this.uiPowerAverageCostRowTextBox.Location = new System.Drawing.Point(255, 104);
+            this.uiPowerAverageCostRowTextBox.Name = "uiPowerAverageCostRowTextBox";
+            this.uiPowerAverageCostRowTextBox.ReadOnly = true;
+            this.uiPowerAverageCostRowTextBox.Size = new System.Drawing.Size(100, 20);
+            this.uiPowerAverageCostRowTextBox.TabIndex = 26;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(22, 105);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(62, 17);
+            this.label9.TabIndex = 25;
+            this.label9.Text = "столбец";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(196, 105);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 17);
+            this.label10.TabIndex = 24;
+            this.label10.Text = "строка";
+            // 
+            // uiPowerAverageCostTextBox
+            // 
+            this.uiPowerAverageCostTextBox.Location = new System.Drawing.Point(523, 104);
+            this.uiPowerAverageCostTextBox.Name = "uiPowerAverageCostTextBox";
+            this.uiPowerAverageCostTextBox.ReadOnly = true;
+            this.uiPowerAverageCostTextBox.Size = new System.Drawing.Size(100, 20);
+            this.uiPowerAverageCostTextBox.TabIndex = 23;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label8.Location = new System.Drawing.Point(20, 90);
+            this.label8.Location = new System.Drawing.Point(20, 84);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(180, 17);
+            this.label8.Size = new System.Drawing.Size(560, 17);
             this.label8.TabIndex = 22;
-            this.label8.Text = "Ведите цену на мощность";
+            this.label8.Text = "Средневзвешенная нерегулируемая цена на мощность на оптовом рынке. руб/МВт\r\n";
             // 
             // uiCostColumnTextBox
             // 
@@ -287,25 +344,30 @@ namespace TM_2
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.TextBox textBox1;
-		private System.Windows.Forms.TextBox uiCoastRowTextBox;
-		private System.Windows.Forms.TextBox uiCostColumnTextBox;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.Label label7;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.TextBox uiDateRowTextBox;
-		private System.Windows.Forms.TextBox uiDateColumnTextBox;
-		private System.Windows.Forms.Panel panel1;
-		private System.Windows.Forms.Button uiCancelButton;
-		private System.Windows.Forms.Button uiLoadToDataBaseButton;
-		private System.Windows.Forms.Button uiOpenXlsButton;
-		private System.Windows.Forms.TextBox OpenFileStringBox;
-		private System.Windows.Forms.DataGridView uiMainDataGridView;
-		private System.Windows.Forms.Label label1;
-	}
+        }
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox uiPowerAverageCostTextBox;
+        private System.Windows.Forms.TextBox uiCoastRowTextBox;
+        private System.Windows.Forms.TextBox uiCostColumnTextBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox uiDateRowTextBox;
+        private System.Windows.Forms.TextBox uiDateColumnTextBox;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button uiCancelButton;
+        private System.Windows.Forms.Button uiLoadToDataBaseButton;
+        private System.Windows.Forms.Button uiOpenXlsButton;
+        private System.Windows.Forms.TextBox OpenFileStringBox;
+        private System.Windows.Forms.DataGridView uiMainDataGridView;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox uiPowerAverageCostColumnTextBox;
+        private System.Windows.Forms.TextBox uiPowerAverageCostRowTextBox;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+    }
 }
