@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -8,26 +7,30 @@ namespace TM_2
     public partial class CalculateForm : Form
     {
         public CalculateInfo CalculateInfo { get; set; }
-        private DateTime _selectedDate;
         private bool _isFormLoaded;
 
         public CalculateForm()
         {
             CalculateInfo = new CalculateInfo();
             InitializeComponent();
-            TestDbConnect();
-            InizializeDateComboBoxs();
-            LoadObjectRegistrationNodes();
-            _isFormLoaded = true;
+            if (TestDbConnect())
+            {
+                InizializeDateComboBoxs();
+                LoadObjectRegistrationNodes();
+                SetTimeShift();
+                _isFormLoaded = true;
+            }
         }
 
-        private void TestDbConnect()
+        private bool TestDbConnect()
         {
             var connectForm = new ConnectDbForm(); //forma tolyana :)
             if (connectForm.ShowDialog() != DialogResult.OK)
             {
                 Dispose();
+                return false;
             }
+            return true;
         }
 
         private void InizializeDateComboBoxs()
@@ -43,8 +46,8 @@ namespace TM_2
             uiYearsComboBox.SelectedIndex = maxyear - minyear;
             uiMonthComboBox.SelectedIndex = DateTime.Now.Month - 2;
             CalculateInfo.ClearCoefficients();
-            _selectedDate = GetSelectedDate();
-            LoadAllCalcCoefficients(_selectedDate);
+            CalculateInfo.Date = GetSelectedDate();
+            LoadAllCalcCoefficients(CalculateInfo.Date);
         }
 
         private void LoadObjectRegistrationNodes()
@@ -54,6 +57,19 @@ namespace TM_2
             AddObjectRegistrationParent(uiObjectRegistrationTreeView);
             AddObjectRegistrationChilds(uiObjectRegistrationTreeView);
             uiObjectRegistrationTreeView.EndUpdate();
+        }
+
+        private void SetTimeShift()
+        {
+            try
+            {
+                Globals.TimeShift = Convert.ToDouble(XmlWorker.GetTimeShift());
+            }
+            catch
+            {
+                Globals.TimeShift = 0;
+                MessageBox.Show("Ошибка преобразования сдвига по времени, проверьте фаил настроек, взято значение 0", "ошибка");
+            }
         }
 
         private void AddObjectRegistrationParent(TreeView node)
@@ -101,7 +117,7 @@ namespace TM_2
 
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
-            SaveAllCalcCoefficients(_selectedDate);
+            SaveAllCalcCoefficients(CalculateInfo.Date);
             Calculate();
             var reportForm = new ReportForm(CalculateInfo);
             reportForm.ShowDialog();
@@ -114,38 +130,17 @@ namespace TM_2
                 uiObjectRegistrationTreeView.SelectedNode = uiObjectRegistrationTreeView.Nodes[0];
             }
             Cursor = Cursors.WaitCursor;
-            uiMainDataGridView.Rows.Clear();
             var mindate = GetSelectedDate();
             var maxdate = mindate.AddMonths(1);
             CalculateAll(mindate, maxdate);
-            ShowResult();
             Cursor = Cursors.Default;
         }
 
         private DateTime GetSelectedDate()
         {
             return Convert.ToDateTime("01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 1) + "." +
-                                             uiYearsComboBox.SelectedItem);
+                                      uiYearsComboBox.SelectedItem);
         }
-
-        private void ShowResult()
-        {
-            uiEnergyTotalValueLabel.Text = Math.Round(CalculateInfo.EnergyTotal, 2).ToString();
-            uiEnergyAverageCostValueLabel.Text = Math.Round(CalculateInfo.EnergyAverageCostSum, 2).ToString();
-            uiEnergyOtherCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyOtherCostSum, 2).ToString();
-            uiEnergyTransferCostSumValueLabel.Text = Math.Round(CalculateInfo.EnergyTransferCostSum, 2).ToString();
-            uiEnergyTotalCostValueLabel.Text = Math.Round(CalculateInfo.EnergyTotalCost, 2).ToString();
-            uiEnergySalesSurchargeCostSumValueLabel.Text =
-                Math.Round(CalculateInfo.EnergySalesSurchargeCostSum, 2).ToString();
-
-            uiPowerTotalValueLabel.Text = Math.Round(CalculateInfo.PowerTotal, 2).ToString();
-            uiPowerTotalCostValueLabel.Text = Math.Round(CalculateInfo.PowerTotalCost, 2).ToString();
-            uiPowerAverageCostSumValueLabel.Text = Math.Round(CalculateInfo.PowerAverageCostSum, 2).ToString();
-            uiPowerSalesSurchargeCostSumValueLabel.Text =
-                Math.Round(CalculateInfo.PowerSalesSurchargeCostSum, 2).ToString();
-            uiTotalCostValueLabel.Text = Math.Round(CalculateInfo.TotalCost, 2).ToString();
-        }
-
         private void CalculateAll(DateTime mindate, DateTime maxdate)
         {
             var energyTotalCostSum = CalculateEnergyTotalCostSum(mindate, maxdate);
@@ -176,13 +171,12 @@ namespace TM_2
 
             cmdText += GetObjectChanelId();
 
-            uiMainDataGridView.Rows.Clear();
             using (var sqlProvider = Globals.GetSqlProvider())
             {
                 double energyTotal = 0;
                 double energyAverageCostSum = 0;
-                sqlProvider.SetParameter("@MinDate", mindate.AddMinutes(-30));
-                sqlProvider.SetParameter("@MaxDate", maxdate.AddMinutes(-30));
+                sqlProvider.SetParameter("@MinDate", mindate.AddMinutes(Globals.TimeShift));
+                sqlProvider.SetParameter("@MaxDate", maxdate.AddMinutes(Globals.TimeShift));
                 sqlProvider.ExecuteQuery(cmdText);
                 for (int i = 0; i < sqlProvider.Rows.Count; i += 2)
                 {
@@ -192,12 +186,9 @@ namespace TM_2
                                    ? sqlProvider.Rows[i + 1].Field<double?>("Cost") ?? 0
                                    : sqlProvider.Rows[i].Field<double?>("Cost") ?? 0;
                     var filka = cost*energyValue/1000;
-                    uiMainDataGridView.Rows.Add(sqlProvider.Rows[i + 1].Field<DateTime>("MeasureDate"), energyValue,
-                                                cost, filka);
                     energyTotal += energyValue;
                     energyAverageCostSum += filka;
                 }
-                uiMainDataGridView.Rows.Add("all", energyTotal, energyAverageCostSum);
                 CalculateInfo.EnergyTotal = energyTotal;
                 CalculateInfo.EnergyAverageCostSum = energyAverageCostSum;
                 return energyAverageCostSum;
@@ -225,7 +216,8 @@ namespace TM_2
         private double CalculateEnergySalesSurchargeCostSum()
         {
             double energyAverageCostSum = CalculateInfo.EnergyAverageCostSum;
-            double coefficient = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text) * Convert.ToDouble(uiEnergySalesSurchargeCost2ValueTextBox.Text);
+            double coefficient = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text)*
+                                 Convert.ToDouble(uiEnergySalesSurchargeCost2ValueTextBox.Text);
             double energySalesSurchargeCostSum = energyAverageCostSum*coefficient;
             CalculateInfo.EnergySalesSurchargeCostSum = energySalesSurchargeCostSum;
             return energySalesSurchargeCostSum;
@@ -237,7 +229,6 @@ namespace TM_2
             double salesSurchargePowerSum = CalculatePowerSalesSurchargeCostSum();
             double powerTotalCost = averagePowerCostSum + salesSurchargePowerSum;
             CalculateInfo.PowerTotalCost = powerTotalCost;
-            uiEnergyTotalCostValueLabel.Text = powerTotalCost.ToString();
             return powerTotalCost;
         }
 
@@ -265,13 +256,12 @@ namespace TM_2
                 foreach (var date in dateList)
                 {
                     sqlProvider.SetParameter("@Date", date);
-                    sqlProvider.SetParameter("@Date2", date.AddMinutes(-30));
+                    sqlProvider.SetParameter("@Date2", date.AddMinutes(Globals.TimeShift));
                     sqlProvider.ExecuteQuery(cmdText);
                     if (sqlProvider.HasRows)
                     {
                         double value = sqlProvider.Rows.Sum(row => row.Field<double>("Value"));
                         powerTotal += value;
-                        uiMainDataGridView.Rows.Add(date, value);
                     }
                 }
                 powerTotal = powerTotal/dateList.Count;
@@ -349,7 +339,8 @@ namespace TM_2
         {
             CalculateInfo.CoefficientEnergyOther = Convert.ToDouble(uiEnergyOtherCostValueTextBox.Text);
             CalculateInfo.CoefficientEnergySalesSurcharge = Convert.ToDouble(uiEnergySalesSurchargeCostValueTextBox.Text);
-            CalculateInfo.CoefficientEnergySalesSurcharge2 = Convert.ToDouble(uiEnergySalesSurchargeCost2ValueTextBox.Text);
+            CalculateInfo.CoefficientEnergySalesSurcharge2 =
+                Convert.ToDouble(uiEnergySalesSurchargeCost2ValueTextBox.Text);
             CalculateInfo.CoefficientEnergyTransfer = Convert.ToDouble(uiEnergyTransferCostTextBox.Text);
             CalculateInfo.CoefficientPowerAverage = Convert.ToDouble(uiPowerAverageCostTextBox.Text);
         }
@@ -358,10 +349,10 @@ namespace TM_2
         {
             try
             {
-            using (var sqlProvider = Globals.GetSqlProvider())
-            {
-                sqlProvider.SetParameter("@Date", date);
-                sqlProvider.ExecuteQuery(@"
+                using (var sqlProvider = Globals.GetSqlProvider())
+                {
+                    sqlProvider.SetParameter("@Date", date);
+                    sqlProvider.ExecuteQuery(@"
                    SELECT EnergyOtherCost
                         ,EnergySalesSurchargeCost
                         ,EnergySalesSurchargeCost2
@@ -369,25 +360,25 @@ namespace TM_2
                         ,PowerAverageCost
                     FROM [dbo].[CalcEnergyCoefficients]
                     WHERE Date = @Date");
-                if (sqlProvider.HasRows)
-                {
-                    CalculateInfo.CoefficientEnergyOther
-                        = sqlProvider.FirstRow.Field<double?>("EnergyOtherCost") ?? 0;
-                    CalculateInfo.CoefficientEnergySalesSurcharge =
-                        sqlProvider.FirstRow.Field<double?>("EnergySalesSurchargeCost") ?? 0;
-                    CalculateInfo.CoefficientEnergySalesSurcharge2 =
-                        sqlProvider.FirstRow.Field<double?>("EnergySalesSurchargeCost2") ?? 0;
-                    CalculateInfo.CoefficientEnergyTransfer
-                        = sqlProvider.FirstRow.Field<double?>("EnergyTransferCost") ?? 0;
-                    CalculateInfo.CoefficientPowerAverage
-                        = sqlProvider.FirstRow.Field<double?>("PowerAverageCost") ?? 0;
+                    if (sqlProvider.HasRows)
+                    {
+                        CalculateInfo.CoefficientEnergyOther
+                            = sqlProvider.FirstRow.Field<double?>("EnergyOtherCost") ?? 0;
+                        CalculateInfo.CoefficientEnergySalesSurcharge =
+                            sqlProvider.FirstRow.Field<double?>("EnergySalesSurchargeCost") ?? 0;
+                        CalculateInfo.CoefficientEnergySalesSurcharge2 =
+                            sqlProvider.FirstRow.Field<double?>("EnergySalesSurchargeCost2") ?? 0;
+                        CalculateInfo.CoefficientEnergyTransfer
+                            = sqlProvider.FirstRow.Field<double?>("EnergyTransferCost") ?? 0;
+                        CalculateInfo.CoefficientPowerAverage
+                            = sqlProvider.FirstRow.Field<double?>("PowerAverageCost") ?? 0;
+                    }
+                    else
+                    {
+                        CalculateInfo.ClearCoefficients();
+                    }
+                    ShowCoefficients();
                 }
-                else
-                {
-                    CalculateInfo.ClearCoefficients();
-                }
-                ShowCoefficients();
-            }
             }
             catch (Exception ex)
             {
@@ -407,8 +398,8 @@ namespace TM_2
         private void uiPowerAverageCostTextBox_Leave(object sender, EventArgs e)
         {
             double outputValue;
-            var isNumber = double.TryParse(((TextBox)sender).Text, out outputValue);
-            if(!isNumber)
+            var isNumber = double.TryParse(((TextBox) sender).Text, out outputValue);
+            if (!isNumber)
             {
                 ((TextBox) sender).Text = "0";
             }
@@ -424,9 +415,9 @@ namespace TM_2
 
         private void ChangeDate()
         {
-            SaveAllCalcCoefficients(_selectedDate);
-            _selectedDate = GetSelectedDate();
-            LoadAllCalcCoefficients(_selectedDate);
+            SaveAllCalcCoefficients(CalculateInfo.Date);
+            CalculateInfo.Date = GetSelectedDate();
+            LoadAllCalcCoefficients(CalculateInfo.Date);
         }
     }
 }

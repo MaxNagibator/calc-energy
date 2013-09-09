@@ -3,6 +3,7 @@ using System.Data.OleDb;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Office.Interop.Excel;
 
 namespace TM_2
 {
@@ -96,7 +97,7 @@ namespace TM_2
                                         energyTotal.ToString("0.00"),
                                         coefficientEnergyCost.ToString("0.00000"),
                                         energyCostSum.ToString("0.00"), "без акциза",
-                                        _calculateInfo.TaxValue*100+'%', (costTax).ToString("0.00"),
+                                        _calculateInfo.TaxValue, (costTax).ToString("0.00"),
                                         (costTax + energyCostSum).ToString("0.00"));
         }
 
@@ -128,69 +129,30 @@ namespace TM_2
                 string path1 = "ItogData.xls";
                 string path2 = saveFileDialog.FileName;
                 File.Copy(path1, path2, true);
-                WriteXlsData(path2);
-                //using (OleDbConnection conn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path2 + ";Extended Properties='Excel 8.0;HDR=Yes'"))
-                //{
-                //    conn.Open();
-                //    string sql = "CREATE TABLE [Sheet1]([Тип устройства]string)";
-                //    OleDbCommand cmd = new OleDbCommand(sql, conn);
-                //    cmd.ExecuteNonQuery();
 
-                //    cmd = new OleDbCommand("INSERT INTO [Sheet1$] VALUES ('test')", conn);
-                //    cmd.ExecuteNonQuery();
-                //    conn.Close();
-                //}
+                WriteXlsData(path2);
             }
         }
 
         private void WriteXlsData(string filename)
         {
-            var xlsConn = new OleDbConnection("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filename +
-                                              ";Extended Properties=\"Excel 8.0\"");
-            xlsConn.Open();
-            var commandText = "[" + uiMainDataGridView.Columns[0].HeaderText + "]string"; 
-            for (int c = 1; c < uiMainDataGridView.Columns.Count; c++)
+            var excel = new Excel();
+            excel.OpenDocument(filename);
+            excel.SetValue("A1", "Расчет за: "+_calculateInfo.Date.ToShortDateString()+"-"+_calculateInfo.Date.AddMonths(1).AddDays(-1).ToShortDateString());
+            for (int i = 1; i < uiMainDataGridView.Rows.Count; i++)
             {
-                commandText += ",[" + uiMainDataGridView.Columns[c].HeaderText + "]string";
+                excel.SetValue("A" + (7 + i), uiMainDataGridView[0, i].Value.ToString());
+                excel.SetValue("B" + (7 + i), uiMainDataGridView[1, i].Value.ToString());
+                excel.SetValue("C" + (7 + i), uiMainDataGridView[2, i].Value.ToString());
+                excel.SetValue("D" + (7 + i), uiMainDataGridView[3, i].Value.ToString());
+                excel.SetValue("E" + (7 + i), uiMainDataGridView[4, i].Value.ToString());
+                excel.SetValue("F" + (7 + i), uiMainDataGridView[5, i].Value.ToString());
+                excel.SetValue("G" + (7 + i), uiMainDataGridView[6, i].Value.ToString());
+                excel.SetValue("H" + (7 + i), uiMainDataGridView[7, i].Value.ToString());
+                excel.SetValue("I" + (7 + i), uiMainDataGridView[8, i].Value.ToString());
+                excel.SetValue("J" + (7 + i), uiMainDataGridView[9, i].Value.ToString());
             }
-
-            string sql = "CREATE TABLE [Sheet1](" + commandText + ")";
-            OleDbCommand cmd = new OleDbCommand(sql, xlsConn);
-            cmd.ExecuteNonQuery();
-
-            for(int r= 0;r<uiMainDataGridView.Rows.Count;r++)
-            {
-                commandText = "INSERT INTO [Sheet1$] VALUES (";
-                commandText += "'" + uiMainDataGridView[0, r].Value + "'";
-                for(int c= 1;c<uiMainDataGridView.Columns.Count;c++)
-                {
-                    commandText += ",'" + uiMainDataGridView[c, r].Value + "'";
-                }
-                commandText += ")";
-                var xlsCmd = new OleDbCommand
-                {
-                    Connection = xlsConn,
-                    CommandText = commandText
-                };
-                xlsCmd.ExecuteNonQuery();
-            }
-            for (int r = 0; r < uiMainDataGridView.Rows.Count; r++)
-            {
-                commandText = "INSERT INTO [Лист2$] ('a','b','c','d','e','f','g','h','i','k') VALUES (";
-                commandText += "'" + uiMainDataGridView[0, r].Value + "'";
-                for (int c = 1; c < uiMainDataGridView.Columns.Count; c++)
-                {
-                    commandText += ",'" + uiMainDataGridView[c, r].Value + "'";
-                }
-                commandText += ")";
-                var xlsCmd = new OleDbCommand
-                {
-                    Connection = xlsConn,
-                    CommandText = commandText
-                };
-                xlsCmd.ExecuteNonQuery();
-            }
-            xlsConn.Close();
+            excel.CloseDocument();
             Process.Start(filename);
         }
     }

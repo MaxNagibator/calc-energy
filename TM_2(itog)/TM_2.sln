@@ -1,8 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-# SharpDevelop 4.3
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TM_2", "TM_2\TM_2.csproj", "{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcEnergy", "TM_2\CalcEnergy.csproj", "{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -10,9 +9,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C0FDD4-EF3F-48F6-BEB3-9D673E98CB81}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

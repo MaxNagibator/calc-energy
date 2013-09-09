@@ -1,4 +1,6 @@
-﻿namespace TM_2
+﻿using System;
+
+namespace TM_2
 {
     public class CalculateInfo
     {
@@ -24,6 +26,8 @@
         public double CoefficientEnergyTransfer { get; set; }
         public double CoefficientPowerSalesSurcharge { get; set; }
         public double CoefficientPowerAverage { get; set; }
+
+        public DateTime Date { get; set; }
 
         public void ClearCoefficients()
         {
