@@ -129,7 +129,6 @@ namespace TM_2
                 string path1 = "ItogData.xls";
                 string path2 = saveFileDialog.FileName;
                 File.Copy(path1, path2, true);
-
                 WriteXlsData(path2);
             }
         }
@@ -138,22 +137,38 @@ namespace TM_2
         {
             var excel = new Excel();
             excel.OpenDocument(filename);
-            excel.SetValue("A1", "Расчет за: "+_calculateInfo.Date.ToShortDateString()+"-"+_calculateInfo.Date.AddMonths(1).AddDays(-1).ToShortDateString());
+            excel.SetValue("A1",
+                           "Расчет за: " + _calculateInfo.Date.ToShortDateString() + "-" +
+                           _calculateInfo.Date.AddMonths(1).AddDays(-1).ToShortDateString());
             for (int i = 1; i < uiMainDataGridView.Rows.Count; i++)
             {
-                excel.SetValue("A" + (7 + i), uiMainDataGridView[0, i].Value.ToString());
-                excel.SetValue("B" + (7 + i), uiMainDataGridView[1, i].Value.ToString());
-                excel.SetValue("C" + (7 + i), uiMainDataGridView[2, i].Value.ToString());
-                excel.SetValue("D" + (7 + i), uiMainDataGridView[3, i].Value.ToString());
-                excel.SetValue("E" + (7 + i), uiMainDataGridView[4, i].Value.ToString());
-                excel.SetValue("F" + (7 + i), uiMainDataGridView[5, i].Value.ToString());
-                excel.SetValue("G" + (7 + i), uiMainDataGridView[6, i].Value.ToString());
-                excel.SetValue("H" + (7 + i), uiMainDataGridView[7, i].Value.ToString());
-                excel.SetValue("I" + (7 + i), uiMainDataGridView[8, i].Value.ToString());
-                excel.SetValue("J" + (7 + i), uiMainDataGridView[9, i].Value.ToString());
+                excel.SetValue("A" + (7 + i), GetValue(uiMainDataGridView[0, i]));
+                excel.SetValue("B" + (7 + i), GetValue(uiMainDataGridView[1, i]));
+                excel.SetValue("C" + (7 + i), GetValue(uiMainDataGridView[2, i]));
+                excel.SetValue("D" + (7 + i), GetValue(uiMainDataGridView[3, i]));
+                excel.SetValue("E" + (7 + i), GetValue(uiMainDataGridView[4, i]));
+                excel.SetValue("F" + (7 + i), GetValue(uiMainDataGridView[5, i]));
+                excel.SetValue("G" + (7 + i), GetValue(uiMainDataGridView[6, i]));
+                excel.SetValue("H" + (7 + i), GetValue(uiMainDataGridView[7, i]));
+                excel.SetValue("I" + (7 + i), GetValue(uiMainDataGridView[8, i]));
+                excel.SetValue("J" + (7 + i), GetValue(uiMainDataGridView[9, i]));
             }
             excel.CloseDocument();
             Process.Start(filename);
+        }
+
+        private object GetValue(DataGridViewCell dataGridViewCell)
+        {
+            try
+            {
+                var a = dataGridViewCell.Value.ToString();
+                var b = a.Split(',');
+                return Convert.ToDouble(b[0]) + Convert.ToDouble(b[1])/(Math.Pow(10, b[1].Length));
+            }
+            catch
+            {
+                return dataGridViewCell.Value;
+            }
         }
     }
 }

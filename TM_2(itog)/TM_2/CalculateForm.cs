@@ -97,18 +97,6 @@ namespace TM_2
             }
         }
 
-        private void uiImportCostButton_Click(object sender, EventArgs e)
-        {
-            var importCostForm = new ImportCostForm();
-            importCostForm.ShowDialog();
-        }
-
-        private void uiPowerHourButton_Click(object sender, EventArgs e)
-        {
-            var importHourPowerForm = new ImportHourPowerForm();
-            importHourPowerForm.ShowDialog();
-        }
-
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
             SaveAllCalcCoefficients(CalculateInfo.Date);
@@ -415,6 +403,20 @@ namespace TM_2
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void uiImportCostToolStripButton_Click(object sender, EventArgs e)
+        {
+            var importCostForm = new ImportCostForm();
+            importCostForm.ShowDialog();
+            LoadAllCalcCoefficients(CalculateInfo.Date);
+        }
+
+        private void uiImportPowerHourToolStripButton_Click(object sender, EventArgs e)
+        {
+            var importHourPowerForm = new ImportHourPowerForm();
+            importHourPowerForm.ShowDialog();
+            LoadAllCalcCoefficients(CalculateInfo.Date);
         }
 
     }

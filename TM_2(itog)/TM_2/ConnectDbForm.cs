@@ -85,6 +85,11 @@ namespace TM_2
 
         private void Connect_to_DB_buttonClick(object sender, EventArgs e)
         {
+            Connect();
+        }
+
+        private void Connect()
+        {
             SqlConnectionStringBuilder conStringBuilder = new SqlConnectionStringBuilder();
             conStringBuilder.DataSource = textBox_server.Text;
             conStringBuilder.UserID = textBox_user.Text;
@@ -158,5 +163,13 @@ namespace TM_2
         }
 
         /*---------------------------------------------------------*/
+
+        private void textBox_passvord_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                Connect();
+            }
+        }
     }
 }

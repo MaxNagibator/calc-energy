@@ -120,6 +120,13 @@ namespace TM_2
             Range.GetType().InvokeMember("Value", BindingFlags.SetProperty, null, Range, new object[] { value });
         }
 
+        public void SetValue(string range, object value)
+        {
+            Range = WorkSheet.GetType().InvokeMember("Range", BindingFlags.GetProperty,
+                null, WorkSheet, new object[] { range });
+            Range.GetType().InvokeMember("Value", BindingFlags.SetProperty, null, Range, new object[] { value });
+        }
+
         /// <summary>
         /// ОБЪЕДЕНИТЬ ЯЧЕЙКИ - Alignment - ВЫРАВНИВАНИЕ В ОБЪЕДИНЕННЫХ ЯЧЕЙКАХ
         /// </summary>

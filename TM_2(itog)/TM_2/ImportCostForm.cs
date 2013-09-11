@@ -131,30 +131,38 @@ namespace TM_2
         {
             if (date != null)
             {
-                double value;
-                var c = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
-                if (uiPowerAverageCostTextBox.Text == "")
+                try
                 {
-                    int averageCostColumn = Convert.ToInt16(uiPowerAverageCostColumnTextBox.Text);
-                    int averageCostRow = Convert.ToInt16(uiPowerAverageCostRowTextBox.Text);
-                    value =
-                        Convert.ToDouble(
-                            uiMainDataGridView[averageCostColumn, averageCostRow].Value.ToString().Replace('.', c).
-                                Replace(',', c));
-                }
-                else
-                {
-                    value = Convert.ToDouble(uiPowerAverageCostTextBox.Text.Replace('.', c).Replace(',', c));
-                }
-                using (var sqlProvider = Globals.GetSqlProvider())
-                {
-                    var d = new DateTime(date.Value.Year, date.Value.Month, 1);
-                    sqlProvider.SetParameter("@Date", d);
-                    sqlProvider.SetParameter("@PowerAverageCost", value/1000);
-                    sqlProvider.ExecuteNonQuery(@"
+                    double value;
+                    var c = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
+                    if (uiPowerAverageCostTextBox.Text == "")
+                    {
+                        int averageCostColumn = Convert.ToInt16(uiPowerAverageCostColumnTextBox.Text);
+                        int averageCostRow = Convert.ToInt16(uiPowerAverageCostRowTextBox.Text);
+                        value =
+                            Convert.ToDouble(
+                                uiMainDataGridView[averageCostColumn, averageCostRow].Value.ToString().Replace('.', c).
+                                    Replace(',', c));
+                    }
+                    else
+                    {
+                        value = Convert.ToDouble(uiPowerAverageCostTextBox.Text.Replace('.', c).Replace(',', c));
+                    }
+                    using (var sqlProvider = Globals.GetSqlProvider())
+                    {
+                        var d = new DateTime(date.Value.Year, date.Value.Month, 1);
+                        sqlProvider.SetParameter("@Date", d);
+                        sqlProvider.SetParameter("@PowerAverageCost", value / 1000);
+                        sqlProvider.ExecuteNonQuery(@"
                     UPDATE [dbo].[CalcEnergyCoefficients]
                     SET PowerAverageCost = @PowerAverageCost
                     WHERE Date = @Date");
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show(
+                        "Неудалось занести в базу данных 'Средневзвешенная нерегулируемая цена на мощность на оптовом рынке. руб/МВт', не удалось считать данные");
                 }
             }
             else

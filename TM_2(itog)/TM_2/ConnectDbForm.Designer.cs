@@ -70,6 +70,7 @@ namespace TM_2
             this.textBox_passvord.PasswordChar = '*';
             this.textBox_passvord.Size = new System.Drawing.Size(137, 20);
             this.textBox_passvord.TabIndex = 2;
+            this.textBox_passvord.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox_passvord_KeyDown);
             // 
             // comboBox_DB
             // 
