@@ -154,9 +154,16 @@ namespace TM_2
                         sqlProvider.SetParameter("@Date", d);
                         sqlProvider.SetParameter("@PowerAverageCost", value / 1000);
                         sqlProvider.ExecuteNonQuery(@"
-                    UPDATE [dbo].[CalcEnergyCoefficients]
-                    SET PowerAverageCost = @PowerAverageCost
-                    WHERE Date = @Date");
+                                            IF EXISTS(SELECT Date FROM [dbo].[CalcEnergyCoefficients] WHERE Date = @Date)
+                                                BEGIN
+                                                    UPDATE [dbo].[CalcEnergyCoefficients]
+                                                    SET PowerAverageCost = @PowerAverageCost
+                                                    WHERE Date = @Date
+                                                END
+                                            ELSE
+                                                BEGIN
+                                                    INSERT INTO [dbo].[CalcEnergyCoefficients] (PowerAverageCost, Date) VALUES (@PowerAverageCost, @Date)
+                                                END");
                     }
                 }
                 catch

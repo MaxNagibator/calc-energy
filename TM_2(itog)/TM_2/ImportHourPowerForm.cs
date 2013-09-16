@@ -15,8 +15,8 @@ namespace TM_2
         {
             InitializeComponent();
             InitializeBeginAdres();
+            LoadImportHourPowerShift();
         }
-
 
         void OpenXLSButtonClick(object sender, EventArgs e)
         {
@@ -132,11 +132,15 @@ namespace TM_2
         {
             DateBeginCell = new Point(0, 8);
             HourBeginCell = new Point(1, 8);
-            
             uiDateColumnTextBox.Text = DateBeginCell.X.ToString();
             uiDateRowTextBox.Text = DateBeginCell.Y.ToString();
             uiHourColumnTextBox.Text = HourBeginCell.X.ToString();
             uiHourRowTextBox.Text = HourBeginCell.Y.ToString();
+        }
+
+        private void LoadImportHourPowerShift()
+        {
+            uiHourShiftTextBox.Text = XmlWorker.GetImportHourPowerShift();
         }
     }
 }

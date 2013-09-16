@@ -12,8 +12,7 @@ namespace TM_2
         public ConnectDbForm()
         {
             InitializeComponent();
-
-            LoadData_from_txt();
+            LoadDataFromSettings();
         }
 
         private static List<string> GetDatabaseList(string Server, string User, string Passvord)
@@ -120,7 +119,7 @@ namespace TM_2
                 if (connError == 0)
                 {
                     connection.Dispose();
-                    SaveData_to_txt();
+                    SaveDataToSettings();
                     var calculateForm = new CalculateForm();
                     Hide();
                 	calculateForm.ShowDialog();
@@ -142,27 +141,23 @@ namespace TM_2
 
         /*Функция для сохранения введенных данных в txt файл*/
 
-        private void SaveData_to_txt()
+        private void SaveDataToSettings()
         {
-            StreamWriter writer = new StreamWriter("savedata.txt", false, Encoding.GetEncoding("windows-1251"));
-            writer.WriteLine(textBox_server.Text);
-            writer.WriteLine(textBox_user.Text);
-            writer.WriteLine(comboBox_DB.SelectedItem);
-            writer.Dispose();
+            XmlWorker.SetLastServer(textBox_server.Text);
+            XmlWorker.SetLastLogin(textBox_user.Text);
+            XmlWorker.SetLastDataBase(comboBox_DB.SelectedItem.ToString());
         }
 
         /*---------------------------------------------------------*/
 
         /*Функция для чтения сохраненных данных из txt файла*/
 
-        private void LoadData_from_txt()
+        private void LoadDataFromSettings()
         {
-            StreamReader reader = new StreamReader("savedata.txt", Encoding.GetEncoding("windows-1251"));
-            textBox_server.AppendText(reader.ReadLine());
-            textBox_user.AppendText(reader.ReadLine());
-            comboBox_DB.Items.Add(reader.ReadLine());
+            textBox_server.AppendText(XmlWorker.GetLastServer());
+            textBox_user.AppendText(XmlWorker.GetLastUserName());
+            comboBox_DB.Items.Add(XmlWorker.GetLastDataBase());
             comboBox_DB.SelectedIndex = 0;
-            reader.Dispose();
         }
 
         /*---------------------------------------------------------*/

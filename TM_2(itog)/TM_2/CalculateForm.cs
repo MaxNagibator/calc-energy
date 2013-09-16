@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace TM_2
 {
@@ -11,7 +13,7 @@ namespace TM_2
 
         public CalculateForm()
         {
-        	CalculateInfo = new CalculateInfo();
+            CalculateInfo = new CalculateInfo();
             InitializeComponent();
             InizializeDateComboBoxs();
             LoadObjectRegistrationNodes();
@@ -30,7 +32,8 @@ namespace TM_2
                 i++;
             }
             uiYearsComboBox.SelectedIndex = maxyear - minyear;
-            uiMonthComboBox.SelectedIndex = DateTime.Now.Month - 2;
+            uiMonthComboBox.SelectedIndex = XmlWorker.GetLastYear();
+            uiMonthComboBox.SelectedIndex = XmlWorker.GetLastMonth();
             CalculateInfo.ClearCoefficients();
             CalculateInfo.Date = GetSelectedDate();
             LoadAllCalcCoefficients(CalculateInfo.Date);
@@ -42,6 +45,7 @@ namespace TM_2
             uiObjectRegistrationTreeView.Nodes.Clear();
             AddObjectRegistrationParent(uiObjectRegistrationTreeView);
             AddObjectRegistrationChilds(uiObjectRegistrationTreeView);
+            uiObjectRegistrationTreeView.SelectedNode = uiObjectRegistrationTreeView.Nodes[0];
             uiObjectRegistrationTreeView.EndUpdate();
         }
 
@@ -54,7 +58,8 @@ namespace TM_2
             catch
             {
                 Globals.TimeShift = 0;
-                MessageBox.Show("Ошибка преобразования сдвига по времени, проверьте фаил настроек, взято значение 0", "ошибка");
+                MessageBox.Show("Ошибка преобразования сдвига по времени, проверьте фаил настроек, взято значение 0",
+                                "ошибка");
             }
         }
 
@@ -86,9 +91,16 @@ namespace TM_2
         private void uiCalculateButton_Click(object sender, EventArgs e)
         {
             SaveAllCalcCoefficients(CalculateInfo.Date);
+            SaveSelectDate();
             Calculate();
             var reportForm = new ReportForm(CalculateInfo);
             reportForm.ShowDialog();
+        }
+
+        private void SaveSelectDate()
+        {
+            XmlWorker.SetLastYear(uiMonthComboBox.SelectedIndex.ToString());
+            XmlWorker.SetLastMonth(uiMonthComboBox.SelectedIndex.ToString());
         }
 
         private void Calculate()
@@ -109,6 +121,7 @@ namespace TM_2
             return Convert.ToDateTime("01." + Convert.ToString(uiMonthComboBox.SelectedIndex + 1) + "." +
                                       uiYearsComboBox.SelectedItem);
         }
+
         private void CalculateAll(DateTime mindate, DateTime maxdate)
         {
             var energyTotalCostSum = CalculateEnergyTotalCostSum(mindate, maxdate);
@@ -403,6 +416,19 @@ namespace TM_2
             var importHourPowerForm = new ImportHourPowerForm();
             importHourPowerForm.ShowDialog();
             LoadAllCalcCoefficients(CalculateInfo.Date);
+        }
+
+        private void uiObjectRegistrationTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            foreach (TreeNode node in uiObjectRegistrationTreeView.Nodes)
+            {
+                foreach (TreeNode n in node.Nodes)
+                {
+                    n.BackColor = Color.White;
+                }
+                node.BackColor = Color.White;
+            }
+            uiObjectRegistrationTreeView.SelectedNode.BackColor = Color.DeepSkyBlue;
         }
     }
 }
