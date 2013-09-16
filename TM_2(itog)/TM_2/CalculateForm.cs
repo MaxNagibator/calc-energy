@@ -11,26 +11,12 @@ namespace TM_2
 
         public CalculateForm()
         {
-            CalculateInfo = new CalculateInfo();
+        	CalculateInfo = new CalculateInfo();
             InitializeComponent();
-            if (TestDbConnect())
-            {
-                InizializeDateComboBoxs();
-                LoadObjectRegistrationNodes();
-                SetTimeShift();
-                _isFormLoaded = true;
-            }
-        }
-
-        private bool TestDbConnect()
-        {
-            var connectForm = new ConnectDbForm(); //forma tolyana :)
-            if (connectForm.ShowDialog() != DialogResult.OK)
-            {
-                Dispose();
-                return false;
-            }
-            return true;
+            InizializeDateComboBoxs();
+            LoadObjectRegistrationNodes();
+            SetTimeShift();
+            _isFormLoaded = true;
         }
 
         private void InizializeDateComboBoxs()
@@ -418,6 +404,5 @@ namespace TM_2
             importHourPowerForm.ShowDialog();
             LoadAllCalcCoefficients(CalculateInfo.Date);
         }
-
     }
 }

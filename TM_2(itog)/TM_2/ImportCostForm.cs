@@ -180,8 +180,9 @@ namespace TM_2
 
         private Double GetCostFromGridView(int rowIndex, int costColumn)
         {
+            var c = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0];
             var costFromGridView = (float) Convert.ToDouble(
-                uiMainDataGridView.Rows[rowIndex].Cells[costColumn].Value.ToString().Replace(".", ","));
+                uiMainDataGridView.Rows[rowIndex].Cells[costColumn].Value.ToString().Replace('.', c).Replace(',', c));
             return costFromGridView;
         }
 

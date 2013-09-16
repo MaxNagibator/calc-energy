@@ -25,7 +25,7 @@ namespace TM_2
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new CalculateForm());
+            Application.Run(new ConnectDbForm());
         }
         
         public static string ConnectionString;

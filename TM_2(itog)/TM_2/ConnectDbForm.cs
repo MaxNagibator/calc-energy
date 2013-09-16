@@ -121,7 +121,10 @@ namespace TM_2
                 {
                     connection.Dispose();
                     SaveData_to_txt();
-                    DialogResult = DialogResult.OK;
+                    var calculateForm = new CalculateForm();
+                    Hide();
+                	calculateForm.ShowDialog();
+                	Close();
                 }
             }
         }
